@@ -41,6 +41,20 @@ public class AMFINavDownloader {
         return response;
     }
     
+    public Map<Integer, Nav> downloadNavs(int[] codes) throws Exception {
+		
+    	Map<Integer, Nav> allNavs = downloadNavs();
+    	Map<Integer, Nav> navs = new HashMap<Integer, Nav>();
+    	for(int code : codes) {
+			Nav nav = allNavs.get(code);
+			if (nav != null) {
+				navs.put(code, nav);
+			}
+		}
+    	
+    	return navs;
+    }
+    
     private boolean filter(String line) {
     	boolean toInclude = false;
     	
