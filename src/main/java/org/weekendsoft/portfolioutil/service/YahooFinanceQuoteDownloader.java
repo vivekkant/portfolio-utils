@@ -68,7 +68,7 @@ public class YahooFinanceQuoteDownloader {
         ArrayNode result = (ArrayNode) (tree.get("quoteResponse").get("result"));
         
         if (result.isArray()) {
-        	LOG.debug("Got arrays of JSON string with size :" + result.size());
+        	LOG.debug("Got arrays of JSON string with size : " + result.size());
 			for (JsonNode node : result) {
 				Quote quote = new Quote();
 				
