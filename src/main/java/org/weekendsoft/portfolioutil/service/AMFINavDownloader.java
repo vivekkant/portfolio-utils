@@ -9,15 +9,20 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.Nav;
 
 public class AMFINavDownloader {
 
+	private static final Logger LOG = Logger.getLogger(AMFINavDownloader.class);
+	
 	private static final String url = "https://www.amfiindia.com/spages/NAVAll.txt";
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
     public Map<Integer, Nav> downloadNavs() throws Exception {
         URL website = new URL(url);
+        LOG.debug("Downloading from URL : " + url);
+        
         URLConnection connection = website.openConnection();
         Map<Integer, Nav> response = new HashMap<Integer, Nav>();
         
@@ -35,8 +40,10 @@ public class AMFINavDownloader {
         		}
         	}
         }
+        LOG.debug("Downloaded total NAVs : " + response.size());
             
         in.close();
+        
 
         return response;
     }
@@ -49,6 +56,10 @@ public class AMFINavDownloader {
 			Nav nav = allNavs.get(code);
 			if (nav != null) {
 				navs.put(code, nav);
+				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
+			}
+			else {
+				LOG.info("Could not download Nav for " + code);
 			}
 		}
     	
