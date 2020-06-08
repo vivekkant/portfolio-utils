@@ -1,4 +1,4 @@
-package org.weekendsoft.smallhacks.stockquote;
+package org.weekendsoft.portfolioutil.model;
 
 public class Quote {
 	

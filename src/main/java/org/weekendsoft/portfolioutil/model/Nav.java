@@ -1,4 +1,4 @@
-package org.weekendsoft.smallhacks.mfnav;
+package org.weekendsoft.portfolioutil.model;
 
 import java.util.Date;
 

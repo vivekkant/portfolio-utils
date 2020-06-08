@@ -1,4 +1,4 @@
-package org.weekendsoft.smallhacks.mfnav;
+package org.weekendsoft.portfolioutil.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.weekendsoft.portfolioutil.model.Nav;
 
 public class AMFINavDownloader {
 

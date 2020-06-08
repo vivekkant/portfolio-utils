@@ -1,8 +1,11 @@
-package org.weekendsoft.smallhacks.stockquote;
+package org.weekendsoft.portfolioutil.service;
 
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.weekendsoft.portfolioutil.model.Quote;
+import org.weekendsoft.portfolioutil.service.YahooFinanceQuoteDownloader;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class YahooFinanceQuoteDownloaderTest {
