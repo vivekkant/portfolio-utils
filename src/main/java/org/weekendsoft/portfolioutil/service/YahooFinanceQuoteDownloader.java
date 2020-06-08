@@ -89,6 +89,7 @@ public class YahooFinanceQuoteDownloader {
     	StringBuilder quoteString = new StringBuilder();
     	
     	for (int i = 0; i < symbols.length; i++) {
+    		
     		quoteString.append(symbols[i]);
     		if (i < symbols.length - 1) {
     			quoteString.append(',');
