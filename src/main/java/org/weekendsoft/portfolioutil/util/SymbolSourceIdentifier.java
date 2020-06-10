@@ -1,6 +1,10 @@
 package org.weekendsoft.portfolioutil.util;
 
+import org.apache.log4j.Logger;
+
 public class SymbolSourceIdentifier {
+	
+	private static final Logger LOG = Logger.getLogger(SymbolSourceIdentifier.class);
 	
 	public enum SymbolType {
 	    YAHOO,
@@ -9,6 +13,8 @@ public class SymbolSourceIdentifier {
 	  }
 	
 	public static SymbolType identifySymbolSource(String symbol) {
+		
+		LOG.debug("Analyzing symbol : " + symbol );
 		
 		if (isAMFISource(symbol)) {
 			return SymbolType.AMFI;
@@ -26,7 +32,9 @@ public class SymbolSourceIdentifier {
 		if (symbol != null && symbol.trim().length() == 6) {
 			try {
 				Integer.parseInt(symbol.trim());
+				LOG.debug("Symbol " + symbol + " is of AMFI");
 				return true;
+				
 			} catch (NumberFormatException e) {
 			}
 		}
@@ -41,6 +49,7 @@ public class SymbolSourceIdentifier {
 			if (symbol.indexOf('.') > 0) {
 				String exchangeCode = symbol.substring(symbol.indexOf('.') + 1);
 				if ("NS".equals(exchangeCode) || "BO".equals(exchangeCode)) {
+					LOG.debug("Symbol " + symbol + " is of YAHOO");
 					return true;
 				}
 			}
