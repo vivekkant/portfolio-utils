@@ -47,12 +47,12 @@ class PortfolioCSVMapperTest {
 		
 		entry.setSymbol("Symbol" + randInt);
 		entry.setName("Name" + randInt);
-		entry.setPrice("" + rand.nextDouble());
-		entry.setQuantity("" + rand.nextFloat());
-		entry.setTotal("" + rand.nextDouble());
-		entry.setCostBasis("" + rand.nextDouble());
-		entry.setGain("" + rand.nextDouble());
-		entry.setGainPercentage("" + rand.nextDouble());
+		entry.setPrice(rand.nextDouble());
+		entry.setQuantity(rand.nextDouble());
+		entry.setTotal(rand.nextDouble());
+		entry.setCostBasis(rand.nextDouble());
+		entry.setGain(rand.nextDouble());
+		entry.setGainPercentage(rand.nextDouble());
 		
 		return entry;
 	}

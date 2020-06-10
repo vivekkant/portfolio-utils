@@ -57,12 +57,12 @@ public class PortfolioCSVParser {
 			
 			entry.setSymbol(symbol);
 			entry.setName(record.get("Name"));
-			entry.setPrice(record.get("Price"));
-			entry.setQuantity(record.get("Quantity"));
-			entry.setTotal(record.get("Total"));
-			entry.setCostBasis(record.get("Cost basis"));
-			entry.setGain(record.get("Gain"));
-			entry.setGainPercentage(record.get("% Gain"));
+			entry.setPrice(convertStringToBoolean(record.get("Price")));
+			entry.setQuantity(convertStringToBoolean(record.get("Quantity")));
+			entry.setTotal(convertStringToBoolean(record.get("Total")));
+			entry.setCostBasis(convertStringToBoolean(record.get("Cost basis")));
+			entry.setGain(convertStringToBoolean(record.get("Gain")));
+			entry.setGainPercentage(convertStringToBoolean(record.get("% Gain")));
 			
 			LOG.debug("Parsed Record : " + entry);
 		}
@@ -71,6 +71,17 @@ public class PortfolioCSVParser {
 		}
 		
 		return entry;
+	}
+	
+	private double convertStringToBoolean(String num) {
+		double returnValue = -1;
+		
+		try {
+			returnValue = Double.parseDouble(num);
+		} catch (NumberFormatException e) {
+		}
+		
+		return returnValue;
 	}
 
 }

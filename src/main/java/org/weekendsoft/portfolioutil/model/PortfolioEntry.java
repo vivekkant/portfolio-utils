@@ -4,62 +4,111 @@ public class PortfolioEntry {
 	
 	private String symbol;
 	private String name;
-	private String price;
-	private String quantity;
-	private String total;
-	private String costBasis;
-	private String gain;
-	private String gainPercentage;
+	private double price;
+	private double quantity;
+	private double total;
+	private double costBasis;
+	private double gain;
+	private double gainPercentage;
+	
+
 	
 	public String getSymbol() {
 		return symbol;
 	}
+
+
+
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+
+
+
 	public String getName() {
 		return name;
 	}
+
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPrice() {
+
+
+
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+
+
+
+	public void setPrice(double price) {
 		this.price = price;
 	}
-	public String getQuantity() {
+
+
+
+	public double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(String quantity) {
+
+
+
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	public String getTotal() {
+
+
+
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(String total) {
+
+
+
+	public void setTotal(double total) {
 		this.total = total;
 	}
-	public String getCostBasis() {
+
+
+
+	public double getCostBasis() {
 		return costBasis;
 	}
-	public void setCostBasis(String costBasis) {
+
+
+
+	public void setCostBasis(double costBasis) {
 		this.costBasis = costBasis;
 	}
-	public String getGain() {
+
+
+
+	public double getGain() {
 		return gain;
 	}
-	public void setGain(String gain) {
+
+
+
+	public void setGain(double gain) {
 		this.gain = gain;
 	}
-	public String getGainPercentage() {
+
+
+
+	public double getGainPercentage() {
 		return gainPercentage;
 	}
-	public void setGainPercentage(String gainPercentage) {
+
+
+
+	public void setGainPercentage(double gainPercentage) {
 		this.gainPercentage = gainPercentage;
 	}
-	
+
+
+
 	@Override
 	public String toString() {
 		return "PortfolioEntry [symbol=" + symbol + ", name=" + name + ", price=" + price + ", quantity=" + quantity

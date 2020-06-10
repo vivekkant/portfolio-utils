@@ -3,6 +3,7 @@ package org.weekendsoft.portfolioutil.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -14,6 +15,7 @@ import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 public class PortfolioCSVMapper {
 	
 	private static final Logger LOG = Logger.getLogger(PortfolioCSVMapper.class);
+	private static final DecimalFormat format = new DecimalFormat("#.####");
 	
 	private File dest;
 	
@@ -36,18 +38,22 @@ public class PortfolioCSVMapper {
 			printer.printRecord(
 						entry.getSymbol(),
 						entry.getName(),
-						entry.getPrice(),
-						entry.getQuantity(),
-						entry.getTotal(),
-						entry.getCostBasis(),
-						entry.getGain(),
-						entry.getGainPercentage()
+						formatDouble(entry.getPrice() * 100),
+						formatDouble(entry.getQuantity() * 50),
+						formatDouble(entry.getTotal() * 5000),
+						formatDouble(entry.getCostBasis()),
+						formatDouble(entry.getGain()),
+						formatDouble(entry.getGainPercentage())
 					);
 			LOG.debug("Added record : " + entry);
 		}
 		
 		printer.flush();
 		printer.close();
+	}
+	
+	public String formatDouble(double num) {
+		return format.format(num);
 	}
 	
 }
