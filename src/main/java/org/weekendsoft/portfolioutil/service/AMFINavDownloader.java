@@ -19,6 +19,8 @@ public class AMFINavDownloader {
 	private static final String url = "https://www.amfiindia.com/spages/NAVAll.txt";
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
+	private static Map<Integer, Nav> allNavs = null;
+	
     public Map<Integer, Nav> downloadNavs() throws Exception {
         URL website = new URL(url);
         LOG.debug("Downloading from URL : " + url);
@@ -50,10 +52,13 @@ public class AMFINavDownloader {
     
     public Map<Integer, Nav> downloadNavs(int[] codes) throws Exception {
 		
-    	Map<Integer, Nav> allNavs = downloadNavs();
+    	if (AMFINavDownloader.allNavs == null) {
+    		AMFINavDownloader.allNavs = downloadNavs();
+    	}
+    	
     	Map<Integer, Nav> navs = new HashMap<Integer, Nav>();
     	for(int code : codes) {
-			Nav nav = allNavs.get(code);
+			Nav nav = AMFINavDownloader.allNavs.get(code);
 			if (nav != null) {
 				navs.put(code, nav);
 				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
