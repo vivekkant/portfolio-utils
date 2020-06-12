@@ -11,8 +11,6 @@ public class PortfolioEntry {
 	private double gain;
 	private double gainPercentage;
 	
-
-	
 	public String getSymbol() {
 		return symbol;
 	}
