@@ -2,6 +2,7 @@ package org.weekendsoft.portfolioutil.service;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
@@ -25,9 +26,9 @@ public class YahooFinanceQuoteDownloader {
 	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes?region=IN&lang=en&symbols=DMART.NS";
 	private static final String key = "ffdc8f3cf7mshdfa87fe1f1e839cp1529d3jsn07400723824d";
 	
-    public Map<String, Quote> downloadQuotes(String[] symbols) throws Exception {
+    public Map<String, Quote> downloadQuotes(List<String> symbols) throws Exception {
     	
-    	LOG.info("Starting downloading for the symbols.." + Arrays.toString(symbols));
+    	LOG.info("Starting downloading for the symbols.." + symbols.toString());
 
         Map<String, Quote> quotes = null;
         
@@ -85,13 +86,13 @@ public class YahooFinanceQuoteDownloader {
         return quotes;
     }
 
-    private String getQuoteString(String[] symbols) {
+    private String getQuoteString(List<String> symbols) {
     	StringBuilder quoteString = new StringBuilder();
     	
-    	for (int i = 0; i < symbols.length; i++) {
+    	for (int i = 0; i < symbols.size(); i++) {
     		
-    		quoteString.append(symbols[i]);
-    		if (i < symbols.length - 1) {
+    		quoteString.append(symbols.get(i));
+    		if (i < symbols.size() - 1) {
     			quoteString.append(',');
     		}
     	}

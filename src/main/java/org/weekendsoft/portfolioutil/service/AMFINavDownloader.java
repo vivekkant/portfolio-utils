@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -50,7 +51,7 @@ public class AMFINavDownloader {
         return response;
     }
     
-    public Map<Integer, Nav> downloadNavs(int[] codes) throws Exception {
+    public Map<Integer, Nav> downloadNavs(List<Integer> codes) throws Exception {
 		
     	if (AMFINavDownloader.allNavs == null) {
     		AMFINavDownloader.allNavs = downloadNavs();
