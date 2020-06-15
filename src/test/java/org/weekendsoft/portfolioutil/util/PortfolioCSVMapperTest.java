@@ -22,9 +22,9 @@ class PortfolioCSVMapperTest {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-//		if (csvFile.exists()) {
-//			csvFile.deleteOnExit();
-//		}
+		if (csvFile.exists()) {
+			csvFile.deleteOnExit();
+		}
 	}
 
 	@Test

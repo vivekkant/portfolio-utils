@@ -38,9 +38,9 @@ public class PortfolioCSVMapper {
 			printer.printRecord(
 						entry.getSymbol(),
 						entry.getName(),
-						formatDouble(entry.getPrice() * 100),
-						formatDouble(entry.getQuantity() * 50),
-						formatDouble(entry.getTotal() * 5000),
+						formatDouble(entry.getPrice()),
+						formatDouble(entry.getQuantity()),
+						formatDouble(entry.getTotal()),
 						formatDouble(entry.getCostBasis()),
 						formatDouble(entry.getGain()),
 						formatDouble(entry.getGainPercentage())
