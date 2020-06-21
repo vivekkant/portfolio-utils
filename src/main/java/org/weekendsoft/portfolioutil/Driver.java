@@ -50,8 +50,6 @@ public class Driver {
 				updater.updatePortfolioFile(infile, outfile);
 			}
 			
-			//TODO Update Portfolio
-			
 		} 
 		catch (ParseException e) {
 			LOG.error("Invalid options: " + e.getMessage(), e);
