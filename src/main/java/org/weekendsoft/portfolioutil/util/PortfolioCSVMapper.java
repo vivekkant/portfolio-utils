@@ -52,7 +52,7 @@ public class PortfolioCSVMapper {
 		printer.close();
 	}
 	
-	public String formatDouble(double num) {
+	public static String formatDouble(double num) {
 		return format.format(num);
 	}
 	

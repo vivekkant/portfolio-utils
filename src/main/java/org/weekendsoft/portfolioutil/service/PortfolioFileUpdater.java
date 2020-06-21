@@ -37,8 +37,10 @@ public class PortfolioFileUpdater {
 		Map<String, PortfolioEntry> portfolio = updatePortfolio(list);
 		
 		PortfolioCSVMapper mapper = new PortfolioCSVMapper(out);
-		mapper.mapPortfolioCSV(new ArrayList<PortfolioEntry>(portfolio.values()));
+		List<PortfolioEntry> entries = new ArrayList<PortfolioEntry>(portfolio.values());
+		mapper.mapPortfolioCSV(entries);
 		
+		printPortfolioSummary(entries);
 	}
 	
 	
@@ -74,7 +76,7 @@ public class PortfolioFileUpdater {
 		if (yahooSymbols.size() > 0) {
 			YahooFinanceQuoteDownloader quoteDownloader = new YahooFinanceQuoteDownloader();
 			Map<String, Quote> quotes = quoteDownloader.downloadQuotes(yahooSymbols);
-			updateStockInPortfolio(portfolio, quotes);
+			updateStocksInPortfolio(portfolio, quotes);
 		}
 		
 		return portfolio;
@@ -96,7 +98,7 @@ public class PortfolioFileUpdater {
 		
 	}
 	
-	private void updateStockInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Quote> quotes) {
+	private void updateStocksInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Quote> quotes) {
 		
 		for (String symbol : quotes.keySet()) {
 			
@@ -127,6 +129,32 @@ public class PortfolioFileUpdater {
 		entry.setGainPercentage(gainPC);
 		
 		return entry;
+	}
+	
+	private void printPortfolioSummary(List<PortfolioEntry> list) {
+		
+		int i = 0;
+		double costTotal = 0;
+		double valueTotal = 0;		
+		
+		for(PortfolioEntry entry : list) {
+			costTotal += entry.getCostBasis();
+			valueTotal += entry.getTotal();
+			i++;
+		}
+		
+		double gain = valueTotal - costTotal;
+		double gainPc = (gain * 100) / costTotal;
+		
+		System.out.println("-----------------------------------------");
+		System.out.println("File : ");
+		System.out.println("-----------------------------------------");
+		System.out.println("Total no investments : " + i);
+		System.out.println("Investment value : " + PortfolioCSVMapper.formatDouble(costTotal));
+		System.out.println("Current value : " + PortfolioCSVMapper.formatDouble(valueTotal));
+		System.out.println("Gain : " + PortfolioCSVMapper.formatDouble(gain));
+		System.out.println("Gain % : " + PortfolioCSVMapper.formatDouble(gainPc));
+		System.out.println("-----------------------------------------");	
 	}
 	
 }
