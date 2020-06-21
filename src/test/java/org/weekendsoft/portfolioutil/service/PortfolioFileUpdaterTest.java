@@ -1,7 +1,5 @@
 package org.weekendsoft.portfolioutil.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

@@ -43,6 +43,8 @@ public class PortfolioCSVParser {
 			}
 		}
 		
+		parser.close();
+		
 		return list;
 	}
 	
