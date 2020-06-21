@@ -72,6 +72,7 @@ public class YahooFinanceQuoteDownloader {
         	LOG.debug("Got arrays of JSON string with size : " + result.size());
 			for (JsonNode node : result) {
 				Quote quote = new Quote();
+				LOG.debug("Parsing API For : " + node.toString());
 				
 				quote.setSymbol(node.get("symbol").asText());
 				quote.setLongName(node.get("longName").asText());

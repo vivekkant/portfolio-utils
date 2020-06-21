@@ -40,7 +40,7 @@ public class PortfolioFileUpdater {
 		List<PortfolioEntry> entries = new ArrayList<PortfolioEntry>(portfolio.values());
 		mapper.mapPortfolioCSV(entries);
 		
-		printPortfolioSummary(entries);
+		printPortfolioSummary(entries, in.getName());
 	}
 	
 	
@@ -131,7 +131,7 @@ public class PortfolioFileUpdater {
 		return entry;
 	}
 	
-	private void printPortfolioSummary(List<PortfolioEntry> list) {
+	private void printPortfolioSummary(List<PortfolioEntry> list, String fileName) {
 		
 		int i = 0;
 		double costTotal = 0;
