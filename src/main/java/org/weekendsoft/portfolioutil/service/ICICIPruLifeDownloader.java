@@ -1,6 +1,8 @@
 package org.weekendsoft.portfolioutil.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.Nav;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 public class ICICIPruLifeDownloader {
 
 	private static final Logger LOG = Logger.getLogger(ICICIPruLifeDownloader.class);
@@ -23,11 +29,9 @@ public class ICICIPruLifeDownloader {
 	
 	private static Map<String, Nav> allNavs = null;
 	
-    public Map<String, Nav> downloadNavs() throws Exception {
+    private String downloadNavsJSON() throws Exception {
         
-    	Map<String, Nav> navs = new HashMap<String, Nav>();
     	LOG.debug("Downloading from URL : " + url);
-        
         CloseableHttpClient httpClient = HttpClients.createDefault();
         
         URIBuilder requestURL = new URIBuilder(url);
@@ -37,18 +41,90 @@ public class ICICIPruLifeDownloader {
         
         CloseableHttpResponse response = httpClient.execute(request);
         
+        String result = null;
         HttpEntity entity = response.getEntity();
         if (entity != null) {
-            String result = EntityUtils.toString(entity);
+            result = EntityUtils.toString(entity);
             LOG.debug("API response received.. " + result);
-            
-            LOG.info("Retruning total quotes: " + navs.size());
+        }
+        else {
+        	throw new Exception("Null response received from the server");
         }
         
-
-        return navs;
+        return result;
     }
     
+    public Map<String, Nav>  getAllNavs() throws Exception {
+    	
+    	if (this.allNavs != null) return this.allNavs;
+    	
+    	Map<String, Nav> navs = new HashMap<String, Nav>();
+    	
+    	String result = downloadNavsJSON();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode navJSONArray = (ArrayNode) (mapper.readTree(result));
+        
+        if (navJSONArray.isArray()) {
+        	LOG.debug("Got arrays of JSON string with size : " + navJSONArray.size());
+			for (JsonNode node : navJSONArray) {
+				Nav nav = new Nav();
+				LOG.debug("Parsing API For : " + node.toString());
+				
+				nav.setCode(node.get("LAfundCode").asText());
+				nav.setDate(parseDate(node.get("NAVLatestDate").asText()));
+				nav.setIsin(node.get("SFIN").asText());
+				nav.setName(node.get("Fund").asText());
+				nav.setNav(parseFloat(node.get("NAVLatest").asText()));
+								
+				LOG.debug("Got quote : " + nav);
+				navs.put(nav.getCode(), nav);
+			}
+        }
+        LOG.debug("Successfully parsed the response, total navs received: " + navs.size());
+    	
+        this.allNavs = navs;
+        return navs; 
+    }
     
+    public Map<String, Nav> getNavForCodes(String[] codes) throws Exception {
+    	
+    	Map<String, Nav> allNavs = getAllNavs();
+    	Map<String, Nav> navs = new HashMap<String, Nav>();
+    	
+    	for (String code : codes) {
+    		
+    		Nav nav = allNavs.get(code);
+    		if (nav != null) {
+    			navs.put(code, nav);
+    			LOG.debug("Got Nav for : " + nav);
+    		}
+    	}
+    	
+    	return navs;
+    }
+    
+    private Date parseDate(String str) {
+    	Date date = null;
+    	
+    	try {
+			date = formatter.parse(str);
+		} catch (ParseException e) {
+			//
+		}
+    	
+    	return date;
+    }
+    
+    private float parseFloat(String str) {
+    	float f = 0.0f;
+    	
+    	try {
+			f = Float.parseFloat(str);
+		} catch (NumberFormatException e) {
+			//
+		}
+    	
+    	return f;
+    }
 
 }
