@@ -23,7 +23,7 @@ class DriverTest {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		File tempdir = new File("/Users/vivekkant/Downloads");
+		File tempdir = new File(System.getProperty("java.io.tmpdir"));
 		indir = new File(tempdir, "portin");
 		outdir = new File(tempdir, "portout");
 		indir.mkdir();
