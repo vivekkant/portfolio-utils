@@ -18,16 +18,18 @@ public class AMFINavDownloader {
 	private static final Logger LOG = Logger.getLogger(AMFINavDownloader.class);
 	
 	private static final String url = "https://www.amfiindia.com/spages/NAVAll.txt";
+	
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
-	private static Map<Integer, Nav> allNavs = null;
+	private static Map<String, Nav> allNavs = null;
 	
-    public Map<Integer, Nav> downloadNavs() throws Exception {
-        URL website = new URL(url);
+    public Map<String, Nav> downloadNavs() throws Exception {
+        
+    	URL website = new URL(url);
         LOG.debug("Downloading from URL : " + url);
         
         URLConnection connection = website.openConnection();
-        Map<Integer, Nav> response = new HashMap<Integer, Nav>();
+        Map<String, Nav> response = new HashMap<String, Nav>();
         
         BufferedReader in = new BufferedReader(
                                 new InputStreamReader(
@@ -46,21 +48,22 @@ public class AMFINavDownloader {
         LOG.debug("Downloaded total NAVs : " + response.size());
             
         in.close();
-        
 
         return response;
     }
     
-    public Map<Integer, Nav> downloadNavs(List<Integer> codes) throws Exception {
+    public Map<String, Nav> downloadNavs(List<String> codes) throws Exception {
 		
     	if (AMFINavDownloader.allNavs == null) {
     		AMFINavDownloader.allNavs = downloadNavs();
     	}
     	
-    	Map<Integer, Nav> navs = new HashMap<Integer, Nav>();
-    	for(int code : codes) {
-			Nav nav = AMFINavDownloader.allNavs.get(code);
-			if (nav != null) {
+    	Map<String, Nav> navs = new HashMap<String, Nav>();
+    	for(String code : codes) {
+			
+    		Nav nav = AMFINavDownloader.allNavs.get(code);
+			
+    		if (nav != null) {
 				navs.put(code, nav);
 				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
 			}
@@ -73,6 +76,7 @@ public class AMFINavDownloader {
     }
     
     private boolean filter(String line) {
+    	
     	boolean toInclude = false;
     	
     	if (line != null && line.trim().length() > 6) {
@@ -81,6 +85,7 @@ public class AMFINavDownloader {
 				Integer.parseInt(code);
 				toInclude = true;
 			} catch (NumberFormatException e) {
+				//Ignore
 			}
     	}
     			
@@ -96,7 +101,7 @@ public class AMFINavDownloader {
     		
     		nav = new Nav();
     		try {
-				nav.setCode(Integer.parseInt(parts[0].trim()));
+				nav.setCode(parts[0].trim());
 			} catch (NumberFormatException e) {
 				return null;
 			}
@@ -114,6 +119,7 @@ public class AMFINavDownloader {
     		try {
 				nav.setDate(formatter.parse(parts[5]));
 			} catch (ParseException e) {
+				//Igore
 			}
     		
     	}

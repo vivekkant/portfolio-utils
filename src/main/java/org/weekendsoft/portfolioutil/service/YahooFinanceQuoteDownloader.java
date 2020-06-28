@@ -1,5 +1,6 @@
 package org.weekendsoft.portfolioutil.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class YahooFinanceQuoteDownloader {
 	
 	private static final Logger LOG = Logger.getLogger(YahooFinanceQuoteDownloader.class);
 
-	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes?region=IN&lang=en&symbols=DMART.NS";
+	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes";
 	private static final String key = "ffdc8f3cf7mshdfa87fe1f1e839cp1529d3jsn07400723824d";
 	
     public Map<String, Quote> downloadQuotes(List<String> symbols) throws Exception {
@@ -46,6 +47,8 @@ public class YahooFinanceQuoteDownloader {
         request.addHeader("useQueryString", "true");
         
         CloseableHttpResponse response = httpClient.execute(request);
+        
+        LOG.debug("Response received : " + Arrays.toString(response.getAllHeaders()));
         
         HttpEntity entity = response.getEntity();
         if (entity != null) {

@@ -15,12 +15,12 @@ class AMFINavDownloaderTest {
 	void test() throws Exception {
 		AMFINavDownloader downloader = new AMFINavDownloader();
 		
-		List<Integer> request = new ArrayList<Integer>();
-		request.add(108466);
-		request.add(119707);
-		request.add(122639);
+		List<String> request = new ArrayList<String>();
+		request.add("108466");
+		request.add("119707");
+		request.add("122639");
 		
-		Map<Integer, Nav> navs = downloader.downloadNavs(request);
+		Map<String, Nav> navs = downloader.downloadNavs(request);
 		assertEquals(request.size(), navs.size());
 	}
 

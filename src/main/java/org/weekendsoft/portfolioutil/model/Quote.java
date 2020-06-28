@@ -2,10 +2,11 @@ package org.weekendsoft.portfolioutil.model;
 
 public class Quote {
 	
-	private String longName;
-	private float regularMarketPrice;
-	private float regularMarketPreviousClose;
-	private String symbol;
+	private String 	symbol;
+	private String 	longName;
+	private float 	regularMarketPrice;
+	private float 	regularMarketPreviousClose;
+
 	
 	public String getLongName() {
 		return longName;

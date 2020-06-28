@@ -16,7 +16,7 @@ public class SymbolSourceIdentifier {
 		
 		LOG.debug("Analyzing symbol : " + symbol );
 		
-		if (isAMFISource(symbol) != -1) {
+		if (isAMFISource(symbol) != null) {
 			return SymbolType.AMFI;
 		}
 		else if (isYahooSource(symbol)) {
@@ -27,19 +27,19 @@ public class SymbolSourceIdentifier {
 		}
 	}
 	
-	public static int isAMFISource(String symbol) {
+	public static String isAMFISource(String symbol) {
 		
 		if (symbol != null && symbol.trim().length() == 6) {
 			try {
-				int code = Integer.parseInt(symbol.trim());
+				Integer.parseInt(symbol.trim());
 				LOG.debug("Symbol " + symbol + " is of AMFI");
-				return code;
+				return symbol.trim();
 				
 			} catch (NumberFormatException e) {
 			}
 		}
 		
-		return -1;
+		return null;
 	}
 	
 	public static boolean isYahooSource(String symbol) {

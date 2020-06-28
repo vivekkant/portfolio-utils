@@ -21,9 +21,9 @@ public class Driver {
 	
 	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd-");
 	
-	private Options options = new Options();
-	private File indir = null;
-	private File outdir = null;
+	private Options options = 	new Options();
+	private File indir 		= 	null;
+	private File outdir 	= 	null;
 
 	public static void main(String[] args) {
 		
@@ -32,8 +32,8 @@ public class Driver {
 	}
 	
 	private void drive(String[] args) {
-		CommandLine cmd = null;	
 		
+		CommandLine cmd = null;	
 		LOG.debug("Got arguments : " + Arrays.toString(args));
 		
 		try {
@@ -81,12 +81,12 @@ public class Driver {
 	}
 	
 	private CommandLine setAndParseOptions(String[] args) throws ParseException {
-		options.addOption("i", "indir", true, "Input directory with portoflio files");
-		options.addOption("o", "outdir", true, "Output directory where portfolio files will be stored");
-		options.addOption("h", "help", false, "Help");		
+		options.addOption("i", "indir", 	true, 	"Input directory with portoflio files");
+		options.addOption("o", "outdir", 	true, 	"Output directory where portfolio files will be stored");
+		options.addOption("h", "help", 		false, 	"Help");		
 		
-		CommandLineParser 	parser = new DefaultParser();
-		CommandLine 		cmd = parser.parse( options, args);
+		CommandLineParser 	parser 	= new DefaultParser();
+		CommandLine 		cmd 	= parser.parse( options, args);
 		
 		return cmd;
 

@@ -81,6 +81,7 @@ public class PortfolioCSVParser {
 		try {
 			returnValue = Double.parseDouble(num);
 		} catch (NumberFormatException e) {
+			//Ignore
 		}
 		
 		return returnValue;

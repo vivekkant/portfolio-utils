@@ -21,7 +21,6 @@ public class PortfolioFileUpdater {
 	
 	public void updatePortfolioFile(File in, File out) throws Exception {
 		
-		
 		List<PortfolioEntry> list = null;
 		if (!in.exists()) {
 			LOG.error("Input file does not exist :" + in);
@@ -48,12 +47,12 @@ public class PortfolioFileUpdater {
 		
 		Map<String, PortfolioEntry> portfolio = new HashMap<String, PortfolioEntry>();
 		
-		List<Integer> amfiCodes = new ArrayList<Integer>();
+		List<String> amfiCodes = new ArrayList<String>();
 		List<String> yahooSymbols = new ArrayList<String>();
 		for(PortfolioEntry entry : list) {
 			
-			int code;
-			if ((code = SymbolSourceIdentifier.isAMFISource(entry.getSymbol())) != -1) {
+			String code;
+			if ((code = SymbolSourceIdentifier.isAMFISource(entry.getSymbol())) != null) {
 				amfiCodes.add(code);
 			}
 			else if (SymbolSourceIdentifier.isYahooSource(entry.getSymbol())) {
@@ -69,7 +68,7 @@ public class PortfolioFileUpdater {
 		
 		if (amfiCodes.size() > 0) {
 			AMFINavDownloader navDownloader = new  AMFINavDownloader();
-			Map<Integer, Nav> navs = navDownloader.downloadNavs(amfiCodes);
+			Map<String, Nav> navs = navDownloader.downloadNavs(amfiCodes);
 			updateMutulFundsInPortfolio(portfolio, navs);
 		}
 		
@@ -82,17 +81,16 @@ public class PortfolioFileUpdater {
 		return portfolio;
 	}
 	
-	private void updateMutulFundsInPortfolio(Map<String, PortfolioEntry> portfolio, Map<Integer, Nav> navs) {
+	private void updateMutulFundsInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Nav> navs) {
 		
-		for (int code : navs.keySet()) {
+		for (String code : navs.keySet()) {
 
 			Nav nav = navs.get(code);
 			
-			PortfolioEntry entry = updatePortfolioEntry(portfolio.get(Integer.toString(code)), 
+			PortfolioEntry entry = updatePortfolioEntry(portfolio.get(code), 
 														nav.getName(), 
 														nav.getNav());
-			
-			portfolio.put(Integer.toString(code), entry);
+			portfolio.put(code, entry);
 			LOG.debug("Updated entry : " + entry);
 		}
 		
