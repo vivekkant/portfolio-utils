@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
@@ -55,10 +56,6 @@ public class ICICIPruLifeDownloader {
     
     public Map<String, Nav>  getAllNavs() throws Exception {
     	
-    	if (ICICIPruLifeDownloader.allNavs != null) {
-    		return ICICIPruLifeDownloader.allNavs;
-    	}
-    	
     	Map<String, Nav> navs = new HashMap<String, Nav>();
     	
     	String result = downloadNavsJSON();
@@ -72,7 +69,7 @@ public class ICICIPruLifeDownloader {
 				Nav nav = new Nav();
 				LOG.debug("Parsing API For : " + node.toString());
 				
-				nav.setCode(			node.get("LAfundCode").asText());
+				nav.setCode(			node.get("LAfundCode").asText() + ".ICICIPRU");
 				nav.setDate(parseDate(	node.get("NAVLatestDate").asText()));
 				nav.setIsin(			node.get("SFIN").asText());
 				nav.setName(			node.get("Fund").asText());
@@ -84,23 +81,29 @@ public class ICICIPruLifeDownloader {
         }
         LOG.debug("Successfully parsed the response, total navs received : " + navs.size());
     	
-        ICICIPruLifeDownloader.allNavs = navs;
         return navs; 
     }
     
-    public Map<String, Nav> getNavForCodes(String[] codes) throws Exception {
-    	
-    	Map<String, Nav> allNavs 	= getAllNavs();
-    	Map<String, Nav> navs 		= new HashMap<String, Nav>();
-    	
-    	for (String code : codes) {
-    		
-    		Nav nav = allNavs.get(code);
-    		if (nav != null) {
-    			navs.put(code, nav);
-    			LOG.debug("Got Nav for : " + nav);
-    		}
+    
+    public Map<String, Nav> downloadNavs(List<String> codes) throws Exception {
+		
+    	if (ICICIPruLifeDownloader.allNavs == null) {
+    		ICICIPruLifeDownloader.allNavs = getAllNavs();
     	}
+    	
+    	Map<String, Nav> navs = new HashMap<String, Nav>();
+    	for(String code : codes) {
+			
+    		Nav nav = ICICIPruLifeDownloader.allNavs.get(code);
+			
+    		if (nav != null) {
+				navs.put(code, nav);
+				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
+			}
+			else {
+				LOG.info("Could not download Nav for " + code);
+			}
+		}
     	
     	return navs;
     }

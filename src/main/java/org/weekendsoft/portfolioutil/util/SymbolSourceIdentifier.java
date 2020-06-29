@@ -64,7 +64,7 @@ public class SymbolSourceIdentifier {
 	}
 	
 	
-	private static boolean isICICIPruSource(String symbol) {
+	public static boolean isICICIPruSource(String symbol) {
 		
 		if (symbol != null && symbol.trim().length() > 9) {
 			symbol = symbol.trim();

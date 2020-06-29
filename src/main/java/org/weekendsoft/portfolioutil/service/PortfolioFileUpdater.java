@@ -49,6 +49,8 @@ public class PortfolioFileUpdater {
 		
 		List<String> amfiCodes = new ArrayList<String>();
 		List<String> yahooSymbols = new ArrayList<String>();
+		List<String> iciciPruSymbols = new ArrayList<String>();
+		
 		for(PortfolioEntry entry : list) {
 			
 			String code;
@@ -57,6 +59,9 @@ public class PortfolioFileUpdater {
 			}
 			else if (SymbolSourceIdentifier.isYahooSource(entry.getSymbol())) {
 				yahooSymbols.add(entry.getSymbol());
+			}
+			else if (SymbolSourceIdentifier.isICICIPruSource(entry.getSymbol())) {
+				iciciPruSymbols.add(entry.getSymbol());
 			}
 			else {
 				entry.setPrice(-1);
@@ -76,6 +81,13 @@ public class PortfolioFileUpdater {
 			YahooFinanceQuoteDownloader quoteDownloader = new YahooFinanceQuoteDownloader();
 			Map<String, Quote> quotes = quoteDownloader.downloadQuotes(yahooSymbols);
 			updateStocksInPortfolio(portfolio, quotes);
+		}
+		
+		if (iciciPruSymbols.size() > 0) {
+			ICICIPruLifeDownloader navDownloader = new ICICIPruLifeDownloader();
+			Map<String, Nav> navs = navDownloader.downloadNavs(iciciPruSymbols);
+			updateMutulFundsInPortfolio(portfolio, navs);
+			
 		}
 		
 		return portfolio;
