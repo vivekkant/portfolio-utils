@@ -9,6 +9,7 @@ public class SymbolSourceIdentifier {
 	public enum SymbolType {
 	    YAHOO,
 	    AMFI,
+	    ICICIPRU,
 	    OTHER
 	  }
 	
@@ -22,11 +23,15 @@ public class SymbolSourceIdentifier {
 		else if (isYahooSource(symbol)) {
 			return SymbolType.YAHOO;
 		}
+		else if (isICICIPruSource(symbol)) {
+			return SymbolType.ICICIPRU;
+		}
 		else {
 			return SymbolType.OTHER;
 		}
 	}
-	
+
+
 	public static String isAMFISource(String symbol) {
 		
 		if (symbol != null && symbol.trim().length() == 6) {
@@ -50,6 +55,23 @@ public class SymbolSourceIdentifier {
 				String exchangeCode = symbol.substring(symbol.indexOf('.') + 1);
 				if ("NS".equals(exchangeCode) || "BO".equals(exchangeCode)) {
 					LOG.debug("Symbol " + symbol + " is of YAHOO");
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	private static boolean isICICIPruSource(String symbol) {
+		
+		if (symbol != null && symbol.trim().length() > 9) {
+			symbol = symbol.trim();
+			if (symbol.indexOf('.') > 0) {
+				String sourcecode = symbol.substring(symbol.indexOf('.') + 1);
+				if ("ICICIPRU".equals(sourcecode)) {
+					LOG.debug("Symbol " + symbol + " is of ICICI Prudential");
 					return true;
 				}
 			}

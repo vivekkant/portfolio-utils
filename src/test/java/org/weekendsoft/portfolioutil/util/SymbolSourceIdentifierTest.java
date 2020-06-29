@@ -37,5 +37,11 @@ class SymbolSourceIdentifierTest {
 		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("234");
 		assertNotEquals(SymbolType.AMFI, symbolType);
 	}
+	
+	@Test
+	void testForICICIPru() {
+		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("5GS.ICICIPRU");
+		assertEquals(SymbolType.ICICIPRU, symbolType);
+	}
 
 }
