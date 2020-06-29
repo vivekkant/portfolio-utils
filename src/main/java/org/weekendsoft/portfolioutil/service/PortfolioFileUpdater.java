@@ -145,7 +145,7 @@ public class PortfolioFileUpdater {
 		double gainPc = (gain * 100) / costTotal;
 		
 		System.out.println("-----------------------------------------");
-		System.out.println("File : ");
+		System.out.println("File : " + fileName);
 		System.out.println("-----------------------------------------");
 		System.out.println("Total no investments : " + i);
 		System.out.println("Investment value : " + PortfolioCSVMapper.formatDouble(costTotal));
