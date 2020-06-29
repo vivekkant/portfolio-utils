@@ -19,6 +19,9 @@ public class PortfolioFileUpdater {
 
 	private static final Logger LOG = Logger.getLogger(PortfolioFileUpdater.class);
 	
+	private double costTotal = 0;
+	private double valueTotal = 0;
+	
 	public void updatePortfolioFile(File in, File out) throws Exception {
 		
 		List<PortfolioEntry> list = null;
@@ -36,14 +39,14 @@ public class PortfolioFileUpdater {
 		Map<String, PortfolioEntry> portfolio = updatePortfolio(list);
 		
 		PortfolioCSVMapper mapper = new PortfolioCSVMapper(out);
-		List<PortfolioEntry> entries = new ArrayList<PortfolioEntry>(portfolio.values());
+		List<PortfolioEntry> entries = getPortfolioEntryList(portfolio);
 		mapper.mapPortfolioCSV(entries);
 		
-		printPortfolioSummary(entries, in.getName());
+		printPortfolioSummary(in.getName());
 	}
 	
 	
-	public Map<String, PortfolioEntry> updatePortfolio(List<PortfolioEntry> list ) throws Exception {
+	public Map<String, PortfolioEntry> updatePortfolio(List<PortfolioEntry> list) throws Exception {
 		
 		Map<String, PortfolioEntry> portfolio = new HashMap<String, PortfolioEntry>();
 		
@@ -141,27 +144,43 @@ public class PortfolioFileUpdater {
 		return entry;
 	}
 	
-	private void printPortfolioSummary(List<PortfolioEntry> list, String fileName) {
+	List<PortfolioEntry> getPortfolioEntryList(Map<String, PortfolioEntry> map) {
 		
-		int i = 0;
-		double costTotal = 0;
-		double valueTotal = 0;		
+		List<PortfolioEntry> list = new ArrayList<PortfolioEntry>();
 		
-		for(PortfolioEntry entry : list) {
-			costTotal += entry.getCostBasis();
-			valueTotal += entry.getTotal();
-			i++;
+		for(PortfolioEntry entry : map.values()) {
+			
+			list.add(entry);
+			this.costTotal += entry.getCostBasis();
+			this.valueTotal += entry.getTotal();
 		}
 		
 		double gain = valueTotal - costTotal;
 		double gainPc = (gain * 100) / costTotal;
 		
+		PortfolioEntry entry = new PortfolioEntry();
+		entry.setSymbol("");
+		entry.setName("Total");
+		entry.setTotal(this.valueTotal);
+		entry.setCostBasis(this.costTotal);
+		entry.setGain(gain);
+		entry.setGainPercentage(gainPc);
+		
+		list.add(entry);
+		
+		return list;
+	}
+	
+	private void printPortfolioSummary(String fileName) {
+		
+		double gain = this.valueTotal - this.costTotal;
+		double gainPc = (gain * 100) / this.costTotal;
+		
 		System.out.println("-----------------------------------------");
 		System.out.println("File : " + fileName);
 		System.out.println("-----------------------------------------");
-		System.out.println("Total no investments : " + i);
-		System.out.println("Investment value : " + PortfolioCSVMapper.formatDouble(costTotal));
-		System.out.println("Current value : " + PortfolioCSVMapper.formatDouble(valueTotal));
+		System.out.println("Investment value : " + PortfolioCSVMapper.formatDouble(this.costTotal));
+		System.out.println("Current value : " + PortfolioCSVMapper.formatDouble(this.valueTotal));
 		System.out.println("Gain : " + PortfolioCSVMapper.formatDouble(gain));
 		System.out.println("Gain % : " + PortfolioCSVMapper.formatDouble(gainPc));
 		System.out.println("-----------------------------------------");	

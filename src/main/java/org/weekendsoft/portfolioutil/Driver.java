@@ -40,9 +40,9 @@ public class Driver {
 			cmd = setAndParseOptions(args);
 			setInAndOutDir(cmd);
 			
-			PortfolioFileUpdater updater = new PortfolioFileUpdater();
 			for (File infile : indir.listFiles(new CSVFileFilter())) {
 				
+				PortfolioFileUpdater updater = new PortfolioFileUpdater();
 				LOG.debug("Procesing file : " + infile.getAbsolutePath());
 				File outfile = getOutfile(infile);
 				LOG.debug("Outfile is : " + outfile.getAbsolutePath());
