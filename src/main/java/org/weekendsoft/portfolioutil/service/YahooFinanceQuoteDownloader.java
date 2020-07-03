@@ -73,16 +73,22 @@ public class YahooFinanceQuoteDownloader {
         if (result.isArray()) {
         	LOG.debug("Got arrays of JSON string with size : " + result.size());
 			for (JsonNode node : result) {
+
 				Quote quote = new Quote();
 				LOG.debug("Parsing API For : " + node.toString());
-				
-				quote.setSymbol(node.get("symbol").asText());
-				quote.setLongName(node.get("longName").asText());
-				quote.setRegularMarketPrice(node.get("regularMarketPrice").floatValue());
-				quote.setRegularMarketPreviousClose(node.get("regularMarketPreviousClose").floatValue());
-				
-				LOG.debug("Got quote : " + quote);
-				quotes.put(quote.getSymbol(), quote);
+
+				try {
+					quote.setSymbol(node.get("symbol").asText());
+					quote.setLongName(node.get("longName").asText());
+					quote.setRegularMarketPrice(node.get("regularMarketPrice").floatValue());
+					quote.setRegularMarketPreviousClose(node.get("regularMarketPreviousClose").floatValue());
+					
+					LOG.debug("Got quote : " + quote);
+					quotes.put(quote.getSymbol(), quote);
+				} 
+				catch (Exception e) {
+					LOG.error("Got exception while getting the Quote data : " + node.toString());
+				}
 			}
         }
         

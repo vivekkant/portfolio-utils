@@ -111,7 +111,8 @@ public class PortfolioFileUpdater {
 		
 	}
 	
-	private void updateStocksInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Quote> quotes) {
+	private void updateStocksInPortfolio(Map<String, PortfolioEntry> portfolio, 
+										 Map<String, Quote> quotes) {
 		
 		for (String symbol : quotes.keySet()) {
 			
@@ -126,7 +127,8 @@ public class PortfolioFileUpdater {
 		
 	}
 	
-	private PortfolioEntry updatePortfolioEntry(PortfolioEntry entry, String name, double price) {
+	private PortfolioEntry updatePortfolioEntry(PortfolioEntry entry, 
+												String name, double price) {
 		
 		LOG.debug("Updateding entry " + name + "  with price " + price);
 		

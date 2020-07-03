@@ -19,7 +19,7 @@ class DriverTest {
 	
 	static File infile = null;
 	
-	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd-");
+	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -43,8 +43,9 @@ class DriverTest {
 		String[] args = {"-i", indir.getPath(),
 						 "-o", outdir.getPath()};
 		Driver.main(args);
-		String outfilename = dateprefix.format(new Date()) + infile.getName();
-		File outfile = new File(outdir, outfilename);
+
+		File outdirnew = new File(outdir, dateprefix.format(new Date()));
+		File outfile = new File(outdirnew, infile.getName());
 		
 		assertTrue(outfile.exists());
 	}

@@ -66,17 +66,23 @@ public class ICICIPruLifeDownloader {
         	
         	LOG.debug("Got arrays of JSON string with size : " + navJSONArray.size());
 			for (JsonNode node : navJSONArray) {
+
 				Nav nav = new Nav();
 				LOG.debug("Parsing API For : " + node.toString());
 				
-				nav.setCode(			node.get("LAfundCode").asText() + ".ICICIPRU");
-				nav.setDate(parseDate(	node.get("NAVLatestDate").asText()));
-				nav.setIsin(			node.get("SFIN").asText());
-				nav.setName(			node.get("Fund").asText());
-				nav.setNav(parseFloat(	node.get("NAVLatest").asText()));
-								
-				LOG.debug("Got quote : " + nav);
-				navs.put(nav.getCode(), nav);
+				try {					
+					nav.setCode(			node.get("LAfundCode").asText() + ".ICICIPRU");
+					nav.setDate(parseDate(	node.get("NAVLatestDate").asText()));
+					nav.setIsin(			node.get("SFIN").asText());
+					nav.setName(			node.get("Fund").asText());
+					nav.setNav(parseFloat(	node.get("NAVLatest").asText()));
+									
+					LOG.debug("Got quote : " + nav);
+					navs.put(nav.getCode(), nav);
+				} 
+				catch (Exception e) {
+					LOG.error("Exception while getting NAV : " + node.toString());
+				}
 			}
         }
         LOG.debug("Successfully parsed the response, total navs received : " + navs.size());
