@@ -7,15 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.Nav;
+import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,35 +24,14 @@ public class ICICIPruLifeDownloader {
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
 	private static Map<String, Nav> allNavs = null;
-	
-    private String downloadNavsJSON() throws Exception {
-        
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        URIBuilder requestURL = new URIBuilder(url);
-        LOG.debug("Starting downloading from : " + requestURL.toString());
-        
-        HttpGet request = new HttpGet(requestURL.build());
-        
-        CloseableHttpResponse response = httpClient.execute(request);
-        
-        String result = null;
-        HttpEntity entity = response.getEntity();
-        if (entity != null) {
-            result = EntityUtils.toString(entity);
-            LOG.debug("API response received : " + result);
-        }
-        else {
-        	throw new Exception("Null response received from the server");
-        }
-        
-        return result;
-    }
     
     public Map<String, Nav>  getAllNavs() throws Exception {
     	
     	Map<String, Nav> navs = new HashMap<String, Nav>();
     	
-    	String result = downloadNavsJSON();
+    	HTTPDownloader downloader = HTTPDownloader.getInstance();
+    	String result = downloader.download(url);
+    	
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode navJSONArray = (ArrayNode) (mapper.readTree(result));
         

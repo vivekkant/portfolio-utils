@@ -1,19 +1,12 @@
 package org.weekendsoft.portfolioutil.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.Quote;
+import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,32 +25,24 @@ public class YahooFinanceQuoteDownloader {
 
         Map<String, Quote> quotes = null;
         
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("region", "IN");
+        params.put("lang", "en");
+        params.put("symbols", getQuoteString(symbols));
         
-        URIBuilder requestURL = new URIBuilder(url);
-        requestURL.setParameter("region", "IN")
-        		  .setParameter("lang", "en")
-        		  .setParameter("symbols", getQuoteString(symbols));
-        LOG.debug("Starting downloading from.." + requestURL.toString());
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
+        headers.put("x-rapidapi-key", key);
+        headers.put("useQueryString", "true");
         
-        HttpGet request = new HttpGet(requestURL.build());
+    	HTTPDownloader downloader = HTTPDownloader.getInstance();
+    	String result = downloader.download(url, headers, params);
         
-        request.addHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-        request.addHeader("x-rapidapi-key", key);
-        request.addHeader("useQueryString", "true");
-        
-        CloseableHttpResponse response = httpClient.execute(request);
-        
-        LOG.debug("Response received : " + Arrays.toString(response.getAllHeaders()));
-        
-        HttpEntity entity = response.getEntity();
-        if (entity != null) {
-            String result = EntityUtils.toString(entity);
+    	if (result != null && !"".equals(result)) {
             LOG.debug("API response received.. " + result);
-            
             quotes = parseResponse(result);
             LOG.info("Retruning total quotes: " + quotes.size());
-        }
+    	}
         
         return quotes;
     }
