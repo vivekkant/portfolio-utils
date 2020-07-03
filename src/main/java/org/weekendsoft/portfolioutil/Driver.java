@@ -19,7 +19,7 @@ public class Driver {
 	
 	private static final Logger LOG = Logger.getLogger(Driver.class);
 	
-	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd-");
+	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private Options options = 	new Options();
 	private File indir 		= 	null;
@@ -44,7 +44,7 @@ public class Driver {
 				
 				PortfolioFileUpdater updater = new PortfolioFileUpdater();
 				LOG.debug("Procesing file : " + infile.getAbsolutePath());
-				File outfile = getOutfile(infile);
+				File outfile = new File(this.outdir, infile.getName());
 				LOG.debug("Outfile is : " + outfile.getAbsolutePath());
 				
 				updater.updatePortfolioFile(infile, outfile);
@@ -75,8 +75,11 @@ public class Driver {
 		
 		String outfileStr = cmd.getOptionValue('o');
 		if (outfileStr == null || "".equals(outfileStr)) throw new Exception("Invalid Output Dir");
-		this.outdir = new File(outfileStr);
-		if (!outdir.exists() || !outdir.isDirectory()) throw new Exception("Output Directory Does not Exists");
+		File outdirparent = new File(outfileStr);
+		if (!outdirparent.exists() || !outdirparent.isDirectory()) throw new Exception("Output Directory Does not Exists");
+		
+		this.outdir = new File(outdirparent, dateprefix.format(new Date()));
+		if (!this.outdir.exists()) this.outdir.mkdir();
 
 	}
 	
@@ -95,11 +98,6 @@ public class Driver {
 	private void printHelp() {
 	     HelpFormatter formatter = new HelpFormatter();
 	      formatter.printHelp("FileNameSorter", options);
-	}
-	
-	private File getOutfile(File infile) {
-		String outfilename = dateprefix.format(new Date()) + infile.getName();
-		return new File(outdir, outfilename);
 	}
 
 }
