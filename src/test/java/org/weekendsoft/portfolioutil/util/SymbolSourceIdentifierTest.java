@@ -43,5 +43,11 @@ class SymbolSourceIdentifierTest {
 		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("5GS.ICICIPRU");
 		assertEquals(SymbolType.ICICIPRU, symbolType);
 	}
+	
+	@Test
+	void testForBB() {
+		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("GOLD.BB");
+		assertEquals(SymbolType.BB, symbolType);
+	}
 
 }

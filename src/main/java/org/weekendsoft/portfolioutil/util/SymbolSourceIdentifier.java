@@ -10,6 +10,7 @@ public class SymbolSourceIdentifier {
 	    YAHOO,
 	    AMFI,
 	    ICICIPRU,
+	    BB,
 	    OTHER
 	  }
 	
@@ -25,6 +26,9 @@ public class SymbolSourceIdentifier {
 		}
 		else if (isICICIPruSource(symbol)) {
 			return SymbolType.ICICIPRU;
+		}
+		else if (isBBSource(symbol)) {
+			return SymbolType.BB;
 		}
 		else {
 			return SymbolType.OTHER;
@@ -72,6 +76,22 @@ public class SymbolSourceIdentifier {
 				String sourcecode = symbol.substring(symbol.indexOf('.') + 1);
 				if ("ICICIPRU".equals(sourcecode)) {
 					LOG.debug("Symbol " + symbol + " is of ICICI Prudential");
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean isBBSource(String symbol) {
+		
+		if (symbol != null && symbol.trim().length() > 3) {
+			symbol = symbol.trim();
+			if (symbol.indexOf('.') > 0) {
+				String sourcecode = symbol.substring(symbol.indexOf('.') + 1);
+				if ("BB".equals(sourcecode)) {
+					LOG.debug("Symbol " + symbol + " is of Bank Bazaar");
 					return true;
 				}
 			}
