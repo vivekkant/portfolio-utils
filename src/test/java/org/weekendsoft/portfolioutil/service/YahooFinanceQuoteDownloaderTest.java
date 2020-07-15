@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.weekendsoft.portfolioutil.model.Quote;
+import org.weekendsoft.portfolioutil.model.Price;
 
 class YahooFinanceQuoteDownloaderTest {
 
 	@Test
 	void test() throws Exception {
-		YahooFinanceQuoteDownloader downloader = new YahooFinanceQuoteDownloader();
+		Downloader downloader = new YahooFinanceQuoteDownloader();
 		
 		List<String> request = new ArrayList<String>();
 		request.add("DMART.NS");
 		request.add("BAJAJFINSV.NS");
 		request.add("UJJIVAN.NS");
 			
-		Map<String, Quote> quotes = downloader.downloadQuotes(request);
+		Map<String, Price> quotes = downloader.download(request);
 		assertEquals(request.size(), quotes.size());
 	}
 

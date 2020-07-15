@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.weekendsoft.portfolioutil.model.Nav;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
-import org.weekendsoft.portfolioutil.model.Quote;
+import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVParser;
 import org.weekendsoft.portfolioutil.util.SymbolSourceIdentifier;
@@ -45,7 +44,6 @@ public class PortfolioFileUpdater {
 		printPortfolioSummary(in.getName());
 	}
 	
-	
 	public Map<String, PortfolioEntry> updatePortfolio(List<PortfolioEntry> list) throws Exception {
 		
 		Map<String, PortfolioEntry> portfolio = new HashMap<String, PortfolioEntry>();
@@ -75,56 +73,38 @@ public class PortfolioFileUpdater {
 		}
 		
 		if (amfiCodes.size() > 0) {
-			AMFINavDownloader navDownloader = new  AMFINavDownloader();
-			Map<String, Nav> navs = navDownloader.downloadNavs(amfiCodes);
-			updateMutulFundsInPortfolio(portfolio, navs);
+			Downloader amfiDownloader = new  AMFINavDownloader();
+			Map<String, Price> prices = amfiDownloader.download(amfiCodes);
+			updateInPortfolio(portfolio, prices);
 		}
 		
 		if (yahooSymbols.size() > 0) {
-			YahooFinanceQuoteDownloader quoteDownloader = new YahooFinanceQuoteDownloader();
-			Map<String, Quote> quotes = quoteDownloader.downloadQuotes(yahooSymbols);
-			updateStocksInPortfolio(portfolio, quotes);
+			Downloader yahooDownloader = new YahooFinanceQuoteDownloader();
+			Map<String, Price> prices = yahooDownloader.download(yahooSymbols);
+			updateInPortfolio(portfolio, prices);
 		}
 		
 		if (iciciPruSymbols.size() > 0) {
-			ICICIPruLifeDownloader navDownloader = new ICICIPruLifeDownloader();
-			Map<String, Nav> navs = navDownloader.downloadNavs(iciciPruSymbols);
-			updateMutulFundsInPortfolio(portfolio, navs);
-			
+			Downloader iciciPruDownloader = new ICICIPruLifeDownloader();
+			Map<String, Price> prices = iciciPruDownloader.download(iciciPruSymbols);
+			updateInPortfolio(portfolio, prices);
 		}
 		
 		return portfolio;
 	}
 	
-	private void updateMutulFundsInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Nav> navs) {
+	private void updateInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Price> prices) {
 		
-		for (String code : navs.keySet()) {
+		for (String symbol : prices.keySet()) {
 
-			Nav nav = navs.get(code);
+			Price price = prices.get(symbol);
 			
-			PortfolioEntry entry = updatePortfolioEntry(portfolio.get(code), 
-														nav.getName(), 
-														nav.getNav());
-			portfolio.put(code, entry);
-			LOG.debug("Updated entry : " + entry);
-		}
-		
-	}
-	
-	private void updateStocksInPortfolio(Map<String, PortfolioEntry> portfolio, 
-										 Map<String, Quote> quotes) {
-		
-		for (String symbol : quotes.keySet()) {
-			
-			Quote quote = quotes.get(symbol);
 			PortfolioEntry entry = updatePortfolioEntry(portfolio.get(symbol), 
-														quote.getLongName(), 
-														quote.getRegularMarketPrice());
-			
+														price.getName(), 
+														price.getPrice());
 			portfolio.put(symbol, entry);
 			LOG.debug("Updated entry : " + entry);
 		}
-		
 	}
 	
 	private PortfolioEntry updatePortfolioEntry(PortfolioEntry entry, 

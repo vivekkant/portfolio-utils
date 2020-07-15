@@ -1,15 +1,45 @@
 package org.weekendsoft.portfolioutil.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
-public class BankBazaarGoldPriceDownloader {
+public class BankBazaarGoldPriceDownloader implements Downloader {
 
 	private static final Logger LOG = Logger.getLogger(BankBazaarGoldPriceDownloader.class);
 	
 	private static final String url = "https://www.bankbazaar.com/gold-rate-pune.html";
 	
-	public double download24KGoldPrice() {
+	private static final String GOLD24K = "24K.BB";
+	private static final String GOLD24K_NAME = "24K Gold";
+	
+	
+	@Override
+	public Map<String, Price> download(List<String> symbols) throws Exception {
+		
+		Map<String, Price> prices = new HashMap<String, Price>();
+		
+		for (String symbol : symbols) {
+			if (symbols.contains(GOLD24K)) {
+				
+				Price price = new Price();
+				price.setSymbol(symbol);
+				price.setPrice(download24KGoldPrice());
+				price.setName(GOLD24K_NAME);
+				
+				prices.put(symbol, price);
+			}
+		}
+		
+		return prices;
+	}
+
+	
+	private double download24KGoldPrice() {
 		double price = -1;
 		
 		try {
@@ -50,4 +80,6 @@ public class BankBazaarGoldPriceDownloader {
 			throw new Exception("Unable to find the anchor line tag");
 		}
 	}
+
+
 }

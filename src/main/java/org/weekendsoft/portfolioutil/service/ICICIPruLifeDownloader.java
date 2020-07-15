@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.weekendsoft.portfolioutil.model.Nav;
+import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-public class ICICIPruLifeDownloader {
+public class ICICIPruLifeDownloader implements Downloader {
 
 	private static final Logger LOG = Logger.getLogger(ICICIPruLifeDownloader.class);
 	
@@ -23,11 +23,37 @@ public class ICICIPruLifeDownloader {
 	
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
-	private static Map<String, Nav> allNavs = null;
-    
-    public Map<String, Nav>  getAllNavs() throws Exception {
+	private static Map<String, Price> allPrices = null;
+	
+
+	@Override
+	public Map<String, Price> download(List<String> symbols) throws Exception {
+
+    	if (ICICIPruLifeDownloader.allPrices == null) {
+    		ICICIPruLifeDownloader.allPrices = getAllPrices();
+    	}
     	
-    	Map<String, Nav> navs = new HashMap<String, Nav>();
+    	Map<String, Price> prices = new HashMap<String, Price>();
+    	for(String symbol : symbols) {
+			
+    		Price price = ICICIPruLifeDownloader.allPrices.get(symbol);
+			
+    		if (price != null) {
+				prices.put(symbol, price);
+				LOG.debug ("Puttiong Nav for " + price.getSymbol() + " : " + price);
+			}
+			else {
+				LOG.info("Could not download Nav for " + symbol);
+			}
+		}
+    	
+    	return prices;
+		
+	}
+    
+    private Map<String, Price>  getAllPrices() throws Exception {
+    	
+    	Map<String, Price> prices = new HashMap<String, Price>();
     	
     	HTTPDownloader downloader = HTTPDownloader.getInstance();
     	String result = downloader.download(url);
@@ -40,51 +66,26 @@ public class ICICIPruLifeDownloader {
         	LOG.debug("Got arrays of JSON string with size : " + navJSONArray.size());
 			for (JsonNode node : navJSONArray) {
 
-				Nav nav = new Nav();
+				Price price = new Price();
 				LOG.debug("Parsing API For : " + node.toString());
 				
 				try {					
-					nav.setCode(			node.get("LAfundCode").asText() + ".ICICIPRU");
-					nav.setDate(parseDate(	node.get("NAVLatestDate").asText()));
-					nav.setIsin(			node.get("SFIN").asText());
-					nav.setName(			node.get("Fund").asText());
-					nav.setNav(parseFloat(	node.get("NAVLatest").asText()));
+					price.setSymbol(			node.get("LAfundCode").asText() + ".ICICIPRU");
+					price.setDate(parseDate(	node.get("NAVLatestDate").asText()));
+					price.setName(				node.get("Fund").asText());
+					price.setPrice(parseFloat(	node.get("NAVLatest").asText()));
 									
-					LOG.debug("Got quote : " + nav);
-					navs.put(nav.getCode(), nav);
+					LOG.debug("Got quote : " + price);
+					prices.put(price.getSymbol(), price);
 				} 
 				catch (Exception e) {
 					LOG.error("Exception while getting NAV : " + node.toString());
 				}
 			}
         }
-        LOG.debug("Successfully parsed the response, total navs received : " + navs.size());
+        LOG.debug("Successfully parsed the response, total navs received : " + prices.size());
     	
-        return navs; 
-    }
-    
-    
-    public Map<String, Nav> downloadNavs(List<String> codes) throws Exception {
-		
-    	if (ICICIPruLifeDownloader.allNavs == null) {
-    		ICICIPruLifeDownloader.allNavs = getAllNavs();
-    	}
-    	
-    	Map<String, Nav> navs = new HashMap<String, Nav>();
-    	for(String code : codes) {
-			
-    		Nav nav = ICICIPruLifeDownloader.allNavs.get(code);
-			
-    		if (nav != null) {
-				navs.put(code, nav);
-				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
-			}
-			else {
-				LOG.info("Could not download Nav for " + code);
-			}
-		}
-    	
-    	return navs;
+        return prices; 
     }
     
     private Date parseDate(String str) {
@@ -112,5 +113,6 @@ public class ICICIPruLifeDownloader {
     	
     	return f;
     }
+
 
 }

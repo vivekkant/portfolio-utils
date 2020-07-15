@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.weekendsoft.portfolioutil.model.Nav;
+import org.weekendsoft.portfolioutil.model.Price;
 
-public class AMFINavDownloader {
+public class AMFINavDownloader implements Downloader {
 
 	private static final Logger LOG = Logger.getLogger(AMFINavDownloader.class);
 	
@@ -21,15 +21,41 @@ public class AMFINavDownloader {
 	
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	
-	private static Map<String, Nav> allNavs = null;
+	private static Map<String, Price> allPrices = null;
 	
-    public Map<String, Nav> downloadNavs() throws Exception {
+	@Override
+	public Map<String, Price> download(List<String> symbols) throws Exception {
+
+    	if (AMFINavDownloader.allPrices == null) {
+    		AMFINavDownloader.allPrices = downloadPrices();
+    	}
+    	
+    	Map<String, Price> prices = new HashMap<String, Price>();
+    	for(String symbol : symbols) {
+			
+    		Price price = AMFINavDownloader.allPrices.get(symbol);
+			
+    		if (price != null) {
+    			prices.put(symbol, price);
+				LOG.debug ("Puttiong Price for " + price.getSymbol() + " : " + price);
+			}
+			else {
+				LOG.info("Could not download Nav for " + symbol);
+			}
+		}
+    	
+    	return prices;
+    	
+	}
+
+	
+    public Map<String, Price> downloadPrices() throws Exception {
         
     	URL website = new URL(url);
         LOG.debug("Downloading from URL : " + url);
         
         URLConnection connection = website.openConnection();
-        Map<String, Nav> response = new HashMap<String, Nav>();
+        Map<String, Price> response = new HashMap<String, Price>();
         
         BufferedReader in = new BufferedReader(
                                 new InputStreamReader(
@@ -39,9 +65,9 @@ public class AMFINavDownloader {
 
         while ((inputLine = in.readLine()) != null) {
         	if (filter(inputLine)) {
-        		Nav nav = parseNav(inputLine);
-        		if (nav != null) {
-        			response.put(nav.getCode(), nav);
+        		Price price = parsePrice(inputLine);
+        		if (price != null) {
+        			response.put(price.getSymbol(), price);
         		}
         	}
         }
@@ -50,29 +76,6 @@ public class AMFINavDownloader {
         in.close();
 
         return response;
-    }
-    
-    public Map<String, Nav> downloadNavs(List<String> codes) throws Exception {
-		
-    	if (AMFINavDownloader.allNavs == null) {
-    		AMFINavDownloader.allNavs = downloadNavs();
-    	}
-    	
-    	Map<String, Nav> navs = new HashMap<String, Nav>();
-    	for(String code : codes) {
-			
-    		Nav nav = AMFINavDownloader.allNavs.get(code);
-			
-    		if (nav != null) {
-				navs.put(code, nav);
-				LOG.debug ("Puttiong Nav for " + nav.getCode() + " : " + nav);
-			}
-			else {
-				LOG.info("Could not download Nav for " + code);
-			}
-		}
-    	
-    	return navs;
     }
     
     private boolean filter(String line) {
@@ -92,39 +95,37 @@ public class AMFINavDownloader {
     	return toInclude;		
     }
     
-    private Nav parseNav(String line) {
+    private Price parsePrice(String line) {
     	
-    	Nav nav = null;
+    	Price price = null;
     	String[] parts = line.split(";");
     	
     	if (parts.length >= 6) {
     		
-    		nav = new Nav();
+    		price = new Price();
     		try {
-				nav.setCode(parts[0].trim());
+				price.setSymbol(parts[0].trim());
 			} catch (NumberFormatException e) {
 				return null;
 			}
     		
-    		nav.setIsin(parts[1].trim());
-    		nav.setIsin2(parts[2].trim());
-    		nav.setName(parts[3].trim());
+    		price.setName(parts[3].trim());
     		
     		try {
-				nav.setNav(Float.parseFloat(parts[4].trim()));
+				price.setPrice(Double.parseDouble(parts[4].trim()));
 			} catch (NumberFormatException e) {
 				return null;
 			}
     		
     		try {
-				nav.setDate(formatter.parse(parts[5]));
+				price.setDate(formatter.parse(parts[5]));
 			} catch (ParseException e) {
 				//Igore
 			}
     		
     	}
     	
-    	return nav;
+    	return price;
     }
 
 }

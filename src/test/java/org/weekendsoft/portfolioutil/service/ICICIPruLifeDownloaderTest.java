@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.weekendsoft.portfolioutil.model.Nav;
+import org.weekendsoft.portfolioutil.model.Price;
 
 class ICICIPruLifeDownloaderTest {
 
@@ -21,9 +21,9 @@ class ICICIPruLifeDownloaderTest {
 		codes.add("5GTH.ICICIPRU");
 		codes.add("2RIC.ICICIPRU");
 		
-		ICICIPruLifeDownloader downloader = new ICICIPruLifeDownloader();
-		Map<String, Nav> navs = downloader.downloadNavs(codes);
-		assertEquals(codes.size(), navs.size());
+		Downloader downloader = new ICICIPruLifeDownloader();
+		Map<String, Price> prices = downloader.download(codes);
+		assertEquals(codes.size(), prices.size());
 	}
 
 }

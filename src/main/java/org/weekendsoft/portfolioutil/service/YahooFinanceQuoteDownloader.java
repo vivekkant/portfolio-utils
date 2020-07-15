@@ -5,25 +5,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.weekendsoft.portfolioutil.model.Quote;
+import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-public class YahooFinanceQuoteDownloader {
+public class YahooFinanceQuoteDownloader implements Downloader {
 	
 	private static final Logger LOG = Logger.getLogger(YahooFinanceQuoteDownloader.class);
 
 	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes";
 	private static final String key = "ffdc8f3cf7mshdfa87fe1f1e839cp1529d3jsn07400723824d";
 	
-    public Map<String, Quote> downloadQuotes(List<String> symbols) throws Exception {
-    	
+	@Override
+	public Map<String, Price> download(List<String> symbols) throws Exception {
+
     	LOG.info("Starting downloading for the symbols.." + symbols.toString());
 
-        Map<String, Quote> quotes = null;
+        Map<String, Price> prices = null;
         
         Map<String, String> params = new HashMap<String, String>();
         params.put("region", "IN");
@@ -40,16 +41,17 @@ public class YahooFinanceQuoteDownloader {
         
     	if (result != null && !"".equals(result)) {
             LOG.debug("API response received.. " + result);
-            quotes = parseResponse(result);
-            LOG.info("Retruning total quotes: " + quotes.size());
+            prices = parseResponse(result);
+            LOG.info("Retruning total quotes: " + prices.size());
     	}
         
-        return quotes;
-    }
+        return prices;
+		
+	}
     
-    private Map<String, Quote> parseResponse(String response) throws Exception {
+    private Map<String, Price> parseResponse(String response) throws Exception {
     	
-        Map<String, Quote> quotes = new HashMap<String, Quote>();
+        Map<String, Price> prices = new HashMap<String, Price>();
         
         ObjectMapper mapper = new ObjectMapper();
         JsonNode tree = mapper.readTree(response);
@@ -59,17 +61,16 @@ public class YahooFinanceQuoteDownloader {
         	LOG.debug("Got arrays of JSON string with size : " + result.size());
 			for (JsonNode node : result) {
 
-				Quote quote = new Quote();
+				Price price = new Price();
 				LOG.debug("Parsing API For : " + node.toString());
 
 				try {
-					quote.setSymbol(node.get("symbol").asText());
-					quote.setLongName(node.get("longName").asText());
-					quote.setRegularMarketPrice(node.get("regularMarketPrice").floatValue());
-					quote.setRegularMarketPreviousClose(node.get("regularMarketPreviousClose").floatValue());
+					price.setSymbol(node.get("symbol").asText());
+					price.setName(node.get("longName").asText());
+					price.setPrice(node.get("regularMarketPrice").doubleValue());
 					
-					LOG.debug("Got quote : " + quote);
-					quotes.put(quote.getSymbol(), quote);
+					LOG.debug("Got quote : " + price);
+					prices.put(price.getSymbol(), price);
 				} 
 				catch (Exception e) {
 					LOG.error("Got exception while getting the Quote data : " + node.toString());
@@ -77,7 +78,7 @@ public class YahooFinanceQuoteDownloader {
 			}
         }
         
-        return quotes;
+        return prices;
     }
 
     private String getQuoteString(List<String> symbols) {
