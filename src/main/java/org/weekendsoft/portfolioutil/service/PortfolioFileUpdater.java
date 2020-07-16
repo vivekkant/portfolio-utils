@@ -51,6 +51,7 @@ public class PortfolioFileUpdater {
 		List<String> amfiCodes = new ArrayList<String>();
 		List<String> yahooSymbols = new ArrayList<String>();
 		List<String> iciciPruSymbols = new ArrayList<String>();
+		List<String> bbSymbols = new ArrayList<String>();
 		
 		for(PortfolioEntry entry : list) {
 			
@@ -63,6 +64,9 @@ public class PortfolioFileUpdater {
 			}
 			else if (SymbolSourceIdentifier.isICICIPruSource(entry.getSymbol())) {
 				iciciPruSymbols.add(entry.getSymbol());
+			}
+			else if (SymbolSourceIdentifier.isBBSource(entry.getSymbol())) {
+				bbSymbols.add(entry.getSymbol());
 			}
 			else {
 				entry.setPrice(-1);
@@ -87,6 +91,12 @@ public class PortfolioFileUpdater {
 		if (iciciPruSymbols.size() > 0) {
 			Downloader iciciPruDownloader = new ICICIPruLifeDownloader();
 			Map<String, Price> prices = iciciPruDownloader.download(iciciPruSymbols);
+			updateInPortfolio(portfolio, prices);
+		}
+		
+		if (bbSymbols.size() > 0) {
+			Downloader bbDownloader = new BankBazaarGoldPriceDownloader();
+			Map<String, Price> prices = bbDownloader.download(bbSymbols);
 			updateInPortfolio(portfolio, prices);
 		}
 		

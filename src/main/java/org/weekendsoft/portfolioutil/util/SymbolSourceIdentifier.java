@@ -10,7 +10,7 @@ public class SymbolSourceIdentifier {
 	    YAHOO,
 	    AMFI,
 	    ICICIPRU,
-	    BB,
+	    BBGOLD,
 	    OTHER
 	  }
 	
@@ -28,7 +28,7 @@ public class SymbolSourceIdentifier {
 			return SymbolType.ICICIPRU;
 		}
 		else if (isBBSource(symbol)) {
-			return SymbolType.BB;
+			return SymbolType.BBGOLD;
 		}
 		else {
 			return SymbolType.OTHER;
@@ -86,11 +86,11 @@ public class SymbolSourceIdentifier {
 	
 	public static boolean isBBSource(String symbol) {
 		
-		if (symbol != null && symbol.trim().length() > 3) {
+		if (symbol != null && symbol.trim().length() > 7) {
 			symbol = symbol.trim();
 			if (symbol.indexOf('.') > 0) {
 				String sourcecode = symbol.substring(symbol.indexOf('.') + 1);
-				if ("BB".equals(sourcecode)) {
+				if ("BBGOLD".equals(sourcecode)) {
 					LOG.debug("Symbol " + symbol + " is of Bank Bazaar");
 					return true;
 				}

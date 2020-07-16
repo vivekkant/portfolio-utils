@@ -14,7 +14,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 	
 	private static final String url = "https://www.bankbazaar.com/gold-rate-pune.html";
 	
-	private static final String GOLD24K = "24K.BB";
+//	private static final String GOLD24K = "24K.BB";
 	private static final String GOLD24K_NAME = "24K Gold";
 	
 	
@@ -24,7 +24,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 		Map<String, Price> prices = new HashMap<String, Price>();
 		
 		for (String symbol : symbols) {
-			if (symbols.contains(GOLD24K)) {
+//			if (symbols.contains(GOLD24K)) {
 				
 				Price price = new Price();
 				price.setSymbol(symbol);
@@ -32,7 +32,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 				price.setName(GOLD24K_NAME);
 				
 				prices.put(symbol, price);
-			}
+//			}
 		}
 		
 		return prices;

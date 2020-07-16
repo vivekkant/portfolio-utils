@@ -46,8 +46,8 @@ class SymbolSourceIdentifierTest {
 	
 	@Test
 	void testForBB() {
-		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("GOLD.BB");
-		assertEquals(SymbolType.BB, symbolType);
+		SymbolType symbolType = SymbolSourceIdentifier.identifySymbolSource("GOLD.BBGOLD");
+		assertEquals(SymbolType.BBGOLD, symbolType);
 	}
 
 }
