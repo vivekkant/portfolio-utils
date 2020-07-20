@@ -3,6 +3,7 @@ package org.weekendsoft.portfolioutil.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -175,6 +176,7 @@ public class PortfolioFileUpdater {
 		
 		System.out.println("-----------------------------------------");
 		System.out.println("File : " + fileName);
+		System.out.println("Date : " + new Date());
 		System.out.println("-----------------------------------------");
 		System.out.println("Investment value : " + PortfolioCSVMapper.formatDouble(this.costTotal));
 		System.out.println("Current value : " + PortfolioCSVMapper.formatDouble(this.valueTotal));
