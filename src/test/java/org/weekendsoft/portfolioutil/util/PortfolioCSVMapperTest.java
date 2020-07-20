@@ -53,6 +53,8 @@ class PortfolioCSVMapperTest {
 		entry.setCostBasis(rand.nextDouble());
 		entry.setGain(rand.nextDouble());
 		entry.setGainPercentage(rand.nextDouble());
+		entry.setCostPrice(rand.nextDouble());
+		entry.setComments("Comments " + randInt);
 		
 		return entry;
 	}

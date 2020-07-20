@@ -8,8 +8,10 @@ public class PortfolioEntry {
 	private double quantity;
 	private double total;
 	private double costBasis;
+	private double costPrice;
 	private double gain;
 	private double gainPercentage;
+	private String comments;
 	
 	public String getSymbol() {
 		return symbol;
@@ -75,11 +77,29 @@ public class PortfolioEntry {
 		this.gainPercentage = gainPercentage;
 	}
 
+	public double getCostPrice() {
+		return costPrice;
+	}
+
+	public void setCostPrice(double costPrice) {
+		this.costPrice = costPrice;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
 	@Override
 	public String toString() {
 		return "PortfolioEntry [symbol=" + symbol + ", name=" + name + ", price=" + price + ", quantity=" + quantity
-				+ ", total=" + total + ", costBasis=" + costBasis + ", gain=" + gain + ", gainPercentage="
-				+ gainPercentage + "]";
+				+ ", total=" + total + ", costBasis=" + costBasis + ", costPrice=" + costPrice + ", gain=" + gain
+				+ ", gainPercentage=" + gainPercentage + ", comments=" + comments + "]";
 	}
+
+
 
 }

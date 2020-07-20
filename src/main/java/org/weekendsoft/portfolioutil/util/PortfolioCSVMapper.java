@@ -30,7 +30,7 @@ public class PortfolioCSVMapper {
 		
 		BufferedWriter writer = new BufferedWriter(new FileWriter(dest));
 		CSVPrinter printer = new CSVPrinter(writer, CSVFormat.EXCEL
-				.withHeader("Symbol","Name","Price","Quantity","Total","Cost basis","Gain","% Gain")
+				.withHeader("Symbol","Name","Cost Price","Price","Quantity","Cost basis","Total","Gain","% Gain","Comments")
 				.withQuote('"').withQuoteMode(QuoteMode.ALL)
 				);
 		
@@ -38,12 +38,14 @@ public class PortfolioCSVMapper {
 			printer.printRecord(
 						entry.getSymbol(),
 						entry.getName(),
+						formatDouble(entry.getCostPrice()),
 						formatDouble(entry.getPrice()),
 						formatDouble(entry.getQuantity()),
-						formatDouble(entry.getTotal()),
 						formatDouble(entry.getCostBasis()),
+						formatDouble(entry.getTotal()),
 						formatDouble(entry.getGain()),
-						formatDouble(entry.getGainPercentage())
+						formatDouble(entry.getGainPercentage()),
+						entry.getComments() == null ? "" : entry.getComments()
 					);
 			LOG.debug("Added record : " + entry);
 		}

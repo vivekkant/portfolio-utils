@@ -3,9 +3,9 @@ package org.weekendsoft.portfolioutil.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
@@ -46,7 +46,7 @@ public class PortfolioFileUpdater {
 	
 	public Map<String, PortfolioEntry> updatePortfolio(List<PortfolioEntry> list) throws Exception {
 		
-		Map<String, PortfolioEntry> portfolio = new HashMap<String, PortfolioEntry>();
+		Map<String, PortfolioEntry> portfolio = new TreeMap<String, PortfolioEntry>();
 		
 		List<String> amfiCodes = new ArrayList<String>();
 		List<String> yahooSymbols = new ArrayList<String>();
@@ -69,7 +69,10 @@ public class PortfolioFileUpdater {
 				bbSymbols.add(entry.getSymbol());
 			}
 			else {
-				entry.setPrice(-1);
+				entry.setPrice(0);
+				entry.setCostPrice(entry.getCostBasis() / entry.getQuantity());
+				entry.setTotal(0);
+				entry.setComments("Symbol does not match any format");
 			}
 			
 			portfolio.put(entry.getSymbol(), entry);
@@ -128,10 +131,12 @@ public class PortfolioFileUpdater {
 		double total = entry.getQuantity() * price;
 		double gain = total - entry.getCostBasis();
 		double gainPC = (gain * 100) / entry.getCostBasis();
+		double costPrice = entry.getCostBasis() / entry.getQuantity();
 		
 		entry.setTotal(total);
 		entry.setGain(gain);
 		entry.setGainPercentage(gainPC);
+		entry.setCostPrice(costPrice);
 		
 		return entry;
 	}
