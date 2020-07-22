@@ -82,44 +82,62 @@ public class PortfolioFileUpdater {
 		
 		if (amfiCodes.size() > 0) {
 			Downloader amfiDownloader = new  AMFINavDownloader();
-			Map<String, Price> prices = amfiDownloader.download(amfiCodes);
-			updateInPortfolio(portfolio, prices);
+			downloadAndUpdate(portfolio, amfiDownloader, amfiCodes);
 		}
 		
 		if (yahooSymbols.size() > 0) {
 			Downloader yahooDownloader = new YahooFinanceQuoteDownloader();
-			Map<String, Price> prices = yahooDownloader.download(yahooSymbols);
-			updateInPortfolio(portfolio, prices);
+			downloadAndUpdate(portfolio, yahooDownloader, yahooSymbols);
 		}
 		
 		if (iciciPruSymbols.size() > 0) {
 			Downloader iciciPruDownloader = new ICICIPruLifeDownloader();
-			Map<String, Price> prices = iciciPruDownloader.download(iciciPruSymbols);
-			updateInPortfolio(portfolio, prices);
+			downloadAndUpdate(portfolio, iciciPruDownloader, iciciPruSymbols);
 		}
 		
 		if (bbSymbols.size() > 0) {
 			Downloader bbDownloader = new BankBazaarGoldPriceDownloader();
-			Map<String, Price> prices = bbDownloader.download(bbSymbols);
-			updateInPortfolio(portfolio, prices);
+			downloadAndUpdate(portfolio, bbDownloader, bbSymbols);
 		}
 		
 		return portfolio;
 	}
 	
-	private void updateInPortfolio(Map<String, PortfolioEntry> portfolio, Map<String, Price> prices) {
-		
-		for (String symbol : prices.keySet()) {
-
-			Price price = prices.get(symbol);
+	private void downloadAndUpdate(Map<String, PortfolioEntry> portfolio, 
+									Downloader downloader, List<String> symbols) {
+		try {
 			
-			PortfolioEntry entry = updatePortfolioEntry(portfolio.get(symbol), 
-														price.getName(), 
-														price.getPrice());
-			portfolio.put(symbol, entry);
-			LOG.debug("Updated entry : " + entry);
+			Map<String, Price> prices = downloader.download(symbols);
+			for (String symbol : prices.keySet()) {
+
+				Price price = prices.get(symbol);
+				
+				PortfolioEntry entry = updatePortfolioEntry(portfolio.get(symbol), 
+															price.getName(), 
+															price.getPrice());
+				portfolio.put(symbol, entry);
+				LOG.debug("Updated entry : " + entry);
+			}		
+			
+		} 
+		catch (Exception e) {
+			
+			LOG.error("Exception while downloading", e);
+			
+			for (String symbol : symbols) {
+
+				PortfolioEntry entry = portfolio.get(symbol);
+				if (entry != null) {
+					entry.setPrice(0);
+					entry.setCostPrice(entry.getCostBasis() / entry.getQuantity());
+					entry.setTotal(0);
+					entry.setComments("Unable to download price");
+					portfolio.put(symbol, entry);
+				}
+			}		
 		}
 	}
+	
 	
 	private PortfolioEntry updatePortfolioEntry(PortfolioEntry entry, 
 												String name, double price) {
