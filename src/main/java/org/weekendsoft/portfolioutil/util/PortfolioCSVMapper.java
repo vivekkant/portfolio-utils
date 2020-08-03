@@ -24,6 +24,7 @@ public class PortfolioCSVMapper implements PortfolioMapper {
 		LOG.debug("CSV Source is " + dest);
 	}
 	
+	@Override
 	public void mapPortfolio(List<PortfolioEntry> list) throws Exception {
 		
 		LOG.debug("Writing CSV File : " + dest);
