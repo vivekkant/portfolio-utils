@@ -29,14 +29,14 @@ class PortfolioCSVMapperTest {
 
 	@Test
 	void test() throws Exception {
-		PortfolioCSVMapper mapper = new PortfolioCSVMapper(csvFile);
+		PortfolioMapper mapper = new PortfolioCSVMapper(csvFile);
 		
 		List<PortfolioEntry> list = new ArrayList<PortfolioEntry>();
 		for (int i = 0; i < 10; i++) {
 			list.add(getPortfolioEntry());
 		}
 		
-		mapper.mapPortfolioCSV(list);
+		mapper.mapPortfolio(list);
 	}
 	
 	private PortfolioEntry getPortfolioEntry() {

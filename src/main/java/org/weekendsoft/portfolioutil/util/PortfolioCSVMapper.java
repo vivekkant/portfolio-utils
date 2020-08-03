@@ -12,7 +12,7 @@ import org.apache.commons.csv.QuoteMode;
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
-public class PortfolioCSVMapper {
+public class PortfolioCSVMapper implements PortfolioMapper {
 	
 	private static final Logger LOG = Logger.getLogger(PortfolioCSVMapper.class);
 	private static final DecimalFormat format = new DecimalFormat("#.####");
@@ -24,7 +24,7 @@ public class PortfolioCSVMapper {
 		LOG.debug("CSV Source is " + dest);
 	}
 	
-	public void mapPortfolioCSV(List<PortfolioEntry> list) throws Exception {
+	public void mapPortfolio(List<PortfolioEntry> list) throws Exception {
 		
 		LOG.debug("Writing CSV File : " + dest);
 		

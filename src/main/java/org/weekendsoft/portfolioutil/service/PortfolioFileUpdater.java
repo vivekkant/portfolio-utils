@@ -13,6 +13,7 @@ import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVParser;
+import org.weekendsoft.portfolioutil.util.PortfolioMapper;
 import org.weekendsoft.portfolioutil.util.SymbolSourceIdentifier;
 
 public class PortfolioFileUpdater {
@@ -38,9 +39,9 @@ public class PortfolioFileUpdater {
 		
 		Map<String, PortfolioEntry> portfolio = updatePortfolio(list);
 		
-		PortfolioCSVMapper mapper = new PortfolioCSVMapper(out);
+		PortfolioMapper mapper = new PortfolioCSVMapper(out);
 		List<PortfolioEntry> entries = getPortfolioEntryList(portfolio);
-		mapper.mapPortfolioCSV(entries);
+		mapper.mapPortfolio(entries);
 		
 		printPortfolioSummary(in.getName());
 	}
