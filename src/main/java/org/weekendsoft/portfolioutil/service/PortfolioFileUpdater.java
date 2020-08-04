@@ -78,10 +78,7 @@ public class PortfolioFileUpdater {
 				bbSymbols.add(entry.getSymbol());
 			}
 			else {
-				entry.setPrice(0);
-				entry.setCostPrice(entry.getCostBasis() / entry.getQuantity());
-				entry.setTotal(0);
-				entry.setComments("Symbol does not match any format");
+				updateZeroValueEntry(entry, "Symbol does not match any format");
 			}
 			
 			portfolio.put(entry.getSymbol(), entry);
@@ -136,14 +133,20 @@ public class PortfolioFileUpdater {
 
 				PortfolioEntry entry = portfolio.get(symbol);
 				if (entry != null) {
-					entry.setPrice(0);
-					entry.setCostPrice(entry.getCostBasis() / entry.getQuantity());
-					entry.setTotal(0);
-					entry.setComments("Unable to download price");
+					updateZeroValueEntry(entry, "Enable to download price");
 					portfolio.put(symbol, entry);
 				}
 			}		
 		}
+	}
+	
+	private void updateZeroValueEntry(PortfolioEntry entry, String comments) {
+		entry.setPrice(0);
+		entry.setCostPrice(entry.getCostPrice() > 0 ? 
+						   entry.getCostBasis() / entry.getQuantity() :
+						   0);
+		entry.setTotal(0);
+		entry.setComments(comments);
 	}
 	
 	
@@ -158,7 +161,9 @@ public class PortfolioFileUpdater {
 		double total = entry.getQuantity() * price;
 		double gain = total - entry.getCostBasis();
 		double gainPC = (gain * 100) / entry.getCostBasis();
-		double costPrice = entry.getCostBasis() / entry.getQuantity();
+		double costPrice = entry.getCostPrice() > 0 ? 
+				entry.getCostBasis() / entry.getQuantity() :
+				0;
 		
 		entry.setTotal(total);
 		entry.setGain(gain);
