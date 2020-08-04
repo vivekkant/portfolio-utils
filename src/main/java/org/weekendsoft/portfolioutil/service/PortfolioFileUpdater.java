@@ -1,6 +1,7 @@
 package org.weekendsoft.portfolioutil.service;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +14,7 @@ import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVParser;
+import org.weekendsoft.portfolioutil.util.PortfolioEmailMapper;
 import org.weekendsoft.portfolioutil.util.PortfolioMapper;
 import org.weekendsoft.portfolioutil.util.SymbolSourceIdentifier;
 
@@ -23,7 +25,7 @@ public class PortfolioFileUpdater {
 	private double costTotal = 0;
 	private double valueTotal = 0;
 	
-	public void updatePortfolioFile(File in, File out) throws Exception {
+	public void updatePortfolioFile(File in, File out, String email) throws Exception {
 		
 		List<PortfolioEntry> list = null;
 		if (!in.exists()) {
@@ -38,10 +40,15 @@ public class PortfolioFileUpdater {
 		}
 		
 		Map<String, PortfolioEntry> portfolio = updatePortfolio(list);
-		
-		PortfolioMapper mapper = new PortfolioCSVMapper(out);
 		List<PortfolioEntry> entries = getPortfolioEntryList(portfolio);
-		mapper.mapPortfolio(entries);
+		
+		PortfolioMapper csvMapper = new PortfolioCSVMapper(out);
+		csvMapper.mapPortfolio(entries);
+		
+		if (email != null) {
+			PortfolioMapper eMapper = new PortfolioEmailMapper(email, getEmailSubject(in.getName()));
+			eMapper.mapPortfolio(entries);
+		}
 		
 		printPortfolioSummary(in.getName());
 	}
@@ -202,6 +209,18 @@ public class PortfolioFileUpdater {
 		System.out.println("Gain : " + PortfolioCSVMapper.formatDouble(gain));
 		System.out.println("Gain % : " + PortfolioCSVMapper.formatDouble(gainPc));
 		System.out.println("-----------------------------------------");	
+	}
+	
+	private String getEmailSubject(String fileName) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		StringBuilder buf = new StringBuilder("Portfolio Update for ");
+		buf.append(fileName);
+		buf.append(" ");
+		buf.append(sdf.format(new Date()));
+		
+		return buf.toString();
 	}
 	
 }

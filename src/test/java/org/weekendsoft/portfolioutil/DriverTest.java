@@ -41,7 +41,8 @@ class DriverTest {
 	@Test
 	void testOptions() {
 		String[] args = {"-i", indir.getPath(),
-						 "-o", outdir.getPath()};
+						 "-o", outdir.getPath(),
+						 "-e", "vivek.kant@gmail.com"};
 		Driver.main(args);
 
 		File outdirnew = new File(outdir, dateprefix.format(new Date()));

@@ -2,6 +2,8 @@ package org.weekendsoft.portfolioutil.util;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
@@ -84,5 +86,5 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 	public static String formatDouble(double num) {
 		return format.format(num);
 	}
-
+	
 }

@@ -12,6 +12,7 @@ class PortfolioFileUpdaterTest {
 	
 	static File inFile = null;
 	static File outFile = null;
+	static String email = "vivek.kant@gmail.com";
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -29,7 +30,7 @@ class PortfolioFileUpdaterTest {
 	@Test
 	void test() throws Exception {
 		PortfolioFileUpdater updater = new PortfolioFileUpdater();
-		updater.updatePortfolioFile(inFile, outFile);
+		updater.updatePortfolioFile(inFile, outFile, email);
 	}
 	
 	static void writeSampleFile(File file) throws IOException {
