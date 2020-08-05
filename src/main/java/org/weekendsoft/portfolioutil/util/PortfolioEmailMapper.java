@@ -2,8 +2,6 @@ package org.weekendsoft.portfolioutil.util;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
@@ -13,7 +11,7 @@ import org.weekendsoft.portfolioutil.util.email.SendGridEmailSender;
 public class PortfolioEmailMapper implements PortfolioMapper {
 	
 	private static final Logger LOG = Logger.getLogger(PortfolioEmailMapper.class);
-	private static final DecimalFormat format = new DecimalFormat("#.####");
+	private static final DecimalFormat format = new DecimalFormat("#.##");
 	
 	private static String from = "portfolio@weekendsoft.org";
 	private static String key = "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";
@@ -44,27 +42,47 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 	private String createPortfolioHTML(List<PortfolioEntry> list) {
 		StringBuffer buf = new StringBuffer();
 		
-		buf.append("<html>\n" + 
-				"	<body>\n" + 
-				"		<table border=\"1\">\n");
+		buf.append("<!DOCTYPE html>\n" + 
+				"<html lang=\"en\">\n" + 
+				"\n" + 
+				"<head>\n" + 
+				"  <meta charset=\"utf-8\">\n" + 
+				"  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" + 
+				"  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">\n" + 
+				"  <title>Material Design Bootstrap</title>\n" + 
+				"  <!-- Font Awesome -->\n" + 
+				"  <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.8.2/css/all.css\">\n" + 
+				"  <!-- Bootstrap core CSS -->\n" + 
+				"  <link href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css\" rel=\"stylesheet\">\n" + 
+				"  <!-- Material Design Bootstrap -->\n" + 
+				"  <link href=\"https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css\" rel=\"stylesheet\">\n" + 
+				"</head>\n" + 
+				"\n" + 
+				"<body>\n" + 
+				"\n" + 
+				"  <!-- Start your project here-->\n" + 
+				"  <table class=\"table table-bordered\">\n" + 
+				"    <thead>\n" + 
+				"      <tr>\n" + 
+				"        <th scope=\"col\">Symbol</th>\n" + 
+				"        <th scope=\"col\">Name</th>\n" + 
+				"        <th scope=\"col\">Cost Price</th>\n" + 
+				"        <th scope=\"col\">Price</th>\n" + 
+				"        <th scope=\"col\">Quantity</th>\n" + 
+				"        <th scope=\"col\">Cost Basis</th>\n" + 
+				"        <th scope=\"col\">Total</th>\n" + 
+				"        <th scope=\"col\">Gain</th>\n" + 
+				"        <th scope=\"col\">Gain %</th>\n" + 
+				"        <th scope=\"col\">Comments</th>\n" + 
+				"      </tr>\n" + 
+				"    </thead>\n" + 
+				"    <tbody>");
 		
-		buf.append("			<tr>\n" + 
-				"				<td>Symbol</td>\n" + 
-				"				<td>Name</td>\n" + 
-				"				<td>Cost Price</td>\n" + 
-				"				<td>Price</td>\n" + 
-				"				<td>Quantity</td>\n" + 
-				"				<td>Cost basis</td>\n" + 
-				"				<td>Total</td>\n" + 
-				"				<td>Gain</td>\n" + 
-				"				<td>% Gain</td>\n" + 
-				"				<td>Comments</td>\n" + 
-				"			</tr>\n");
 		
 		for (PortfolioEntry entry : list) {
 		
 			buf.append("			<tr>\n" + 
-					"				<td>" + entry.getSymbol() + "</td>\n" + 
+					"				<th scope=\"row\">" + entry.getSymbol() + "</th>\n" + 
 					"				<td>" + entry.getName() + "</td>\n" + 
 					"				<td>" + formatDouble(entry.getCostPrice()) + "</td>\n" + 
 					"				<td>" + formatDouble(entry.getPrice()) + "</td>\n" + 
@@ -77,8 +95,21 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 					"			</tr>\n");		
 			}
 		
-		buf.append("		</table>\n" + 
-				"	</body>\n" + 
+		buf.append("    </tbody>\n" + 
+				"  </table>\n" + 
+				"  <!-- /Start your project here-->\n" + 
+				"\n" + 
+				"  <!-- SCRIPTS -->\n" + 
+				"<!-- JQuery -->\n" + 
+				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n" + 
+				"<!-- Bootstrap tooltips -->\n" + 
+				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js\"></script>\n" + 
+				"<!-- Bootstrap core JavaScript -->\n" + 
+				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js\"></script>\n" + 
+				"<!-- MDB core JavaScript -->\n" + 
+				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js\"></script>\n" + 
+				"</body>\n" + 
+				"\n" + 
 				"</html>");
 		return buf.toString();
 	}

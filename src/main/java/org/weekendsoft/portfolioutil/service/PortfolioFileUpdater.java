@@ -142,7 +142,7 @@ public class PortfolioFileUpdater {
 	
 	private void updateZeroValueEntry(PortfolioEntry entry, String comments) {
 		entry.setPrice(0);
-		entry.setCostPrice(entry.getCostPrice() > 0 ? 
+		entry.setCostPrice(entry.getQuantity() > 0 ? 
 						   entry.getCostBasis() / entry.getQuantity() :
 						   0);
 		entry.setTotal(0);
@@ -161,7 +161,7 @@ public class PortfolioFileUpdater {
 		double total = entry.getQuantity() * price;
 		double gain = total - entry.getCostBasis();
 		double gainPC = (gain * 100) / entry.getCostBasis();
-		double costPrice = entry.getCostPrice() > 0 ? 
+		double costPrice = entry.getQuantity() > 0 ? 
 				entry.getCostBasis() / entry.getQuantity() :
 				0;
 		
