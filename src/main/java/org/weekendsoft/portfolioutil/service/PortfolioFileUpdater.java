@@ -46,8 +46,12 @@ public class PortfolioFileUpdater {
 		csvMapper.mapPortfolio(entries);
 		
 		if (email != null) {
-			PortfolioMapper eMapper = new PortfolioEmailMapper(email, getEmailSubject(in.getName()));
-			eMapper.mapPortfolio(entries);
+			try {
+				PortfolioMapper eMapper = new PortfolioEmailMapper(email, getEmailSubject(in.getName()));
+				eMapper.mapPortfolio(entries);
+			} catch (Exception e) {
+				LOG.error("Email sending failed", e);
+			}
 		}
 		
 		printPortfolioSummary(in.getName());
