@@ -9,6 +9,9 @@
 target
 target/**
 
+# Security files
+src/main/resources/app.properties
+
 # Configuration
 .DS_Store
 .classpath
