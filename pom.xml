@@ -41,10 +41,10 @@
 		    <version>1.8</version>
 		</dependency>
 		<dependency>
-	    	<groupId>com.sendgrid</groupId>
-	    	<artifactId>sendgrid-java</artifactId>
-	    	<version>4.0.1</version>
-		</dependency>		
+		    <groupId>org.weekendsoft</groupId>
+		    <artifactId>email-sender</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>			
 		<dependency>
 		    <groupId>org.antlr</groupId>
 		    <artifactId>stringtemplate</artifactId>

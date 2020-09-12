@@ -4,9 +4,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.weekendsoft.emailsender.EmailSender;
+import org.weekendsoft.emailsender.SendInBlueEmailSender;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
-import org.weekendsoft.portfolioutil.util.email.EmailSender;
-import org.weekendsoft.portfolioutil.util.email.SendGridEmailSender;
 
 public class PortfolioEmailMapper implements PortfolioMapper {
 	
@@ -14,7 +14,6 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 	private static final DecimalFormat format = new DecimalFormat("#.##");
 	
 	private static String from = "portfolio@weekendsoft.org";
-	private static String key = "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";
 	
 	private String email;
 	private String subject;
@@ -33,8 +32,8 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 		LOG.debug("HTML to send : " + html);
 
 		LOG.debug("Sending email to " + email);
-		EmailSender sg = new SendGridEmailSender(key);
-		sg.sendPlainHTMLEmail(from, email, subject, html);
+		EmailSender sg = SendInBlueEmailSender.getInstance();
+		sg.sendHTMLEmail(from, email, subject, html);
 		LOG.debug("Email sent");
 	}
 	
