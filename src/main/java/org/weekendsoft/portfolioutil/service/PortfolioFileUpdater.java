@@ -149,7 +149,7 @@ public class PortfolioFileUpdater {
 		entry.setCostPrice(entry.getQuantity() > 0 ? 
 						   entry.getCostBasis() / entry.getQuantity() :
 						   0);
-		entry.setTotal(0);
+		entry.setTotal(entry.getCostBasis());
 		entry.setComments(comments);
 	}
 	
