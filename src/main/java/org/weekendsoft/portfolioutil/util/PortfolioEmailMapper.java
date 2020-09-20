@@ -41,73 +41,56 @@ public class PortfolioEmailMapper implements PortfolioMapper {
 	private String createPortfolioHTML(List<PortfolioEntry> list) {
 		StringBuffer buf = new StringBuffer();
 		
-		buf.append("<!DOCTYPE html>\n" + 
-				"<html lang=\"en\">\n" + 
+		buf.append("<html lang=\"en\">\n" + 
+				"" + 
+				"<head>" + 
+				"  <meta charset=\"utf-8\">" + 
+				"  <title>Portfolio Update</title>" + 
+				"</head>" + 
 				"\n" + 
-				"<head>\n" + 
-				"  <meta charset=\"utf-8\">\n" + 
-				"  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" + 
-				"  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">\n" + 
-				"  <title>Material Design Bootstrap</title>\n" + 
-				"  <!-- Font Awesome -->\n" + 
-				"  <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.8.2/css/all.css\">\n" + 
-				"  <!-- Bootstrap core CSS -->\n" + 
-				"  <link href=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css\" rel=\"stylesheet\">\n" + 
-				"  <!-- Material Design Bootstrap -->\n" + 
-				"  <link href=\"https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css\" rel=\"stylesheet\">\n" + 
-				"</head>\n" + 
+				"<body>" + 
 				"\n" + 
-				"<body>\n" + 
-				"\n" + 
-				"  <!-- Start your project here-->\n" + 
-				"  <table class=\"table table-bordered\">\n" + 
-				"    <thead>\n" + 
-				"      <tr>\n" + 
-				"        <th scope=\"col\">Symbol</th>\n" + 
-				"        <th scope=\"col\">Name</th>\n" + 
-				"        <th scope=\"col\">Cost Price</th>\n" + 
-				"        <th scope=\"col\">Price</th>\n" + 
-				"        <th scope=\"col\">Quantity</th>\n" + 
-				"        <th scope=\"col\">Cost Basis</th>\n" + 
-				"        <th scope=\"col\">Total</th>\n" + 
-				"        <th scope=\"col\">Gain</th>\n" + 
-				"        <th scope=\"col\">Gain %</th>\n" + 
-				"        <th scope=\"col\">Comments</th>\n" + 
-				"      </tr>\n" + 
-				"    </thead>\n" + 
-				"    <tbody>");
+				"<table border=\"1px\">" + 
+				"<thead>" + 
+				"  <tr>" + 
+				"  <tr>" + 
+				"    <th width=\"180\">Symbol</th>" + 
+				"    <th width=\"120\">Name</th>" + 
+				"    <th width=\"100\">Cost Price</th>" + 
+				"    <th width=\"100\">Price</th>" + 
+				"    <th width=\"100\">Quantity</th>" + 
+				"    <th width=\"100\">Cost Basis</th>" + 
+				"    <th width=\"100\">Total</th>" + 
+				"    <th width=\"100\">Gain</th>" + 
+				"    <th width=\"100\">Gain %</th>" + 
+				"    <th width=\"180\">Comments</th>" + 
+				"  </tr>" + 
+				"</thead>" + 
+				"<tbody>");
 		
 		
 		for (PortfolioEntry entry : list) {
-		
-			buf.append("			<tr>\n" + 
-					"				<th scope=\"row\">" + entry.getSymbol() + "</th>\n" + 
-					"				<td>" + entry.getName() + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getCostPrice()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getPrice()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getQuantity()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getCostBasis()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getTotal()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getGain()) + "</td>\n" + 
-					"				<td>" + formatDouble(entry.getGainPercentage()) + "</td>\n" + 
-					"				<td>" + (entry.getComments() == null ? "" : entry.getComments()) + "</td>\n" + 
-					"			</tr>\n");		
+			
+		 buf.append(" " +
+		 		"<tr>" + 
+		 		"    <td>" + entry.getSymbol() + "</td>" + 
+		 		"    <td>" + entry.getName() + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getCostPrice()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getPrice()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getQuantity()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getCostBasis()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getTotal()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getGain()) + "</td>" + 
+		 		"    <td align=\"right\">" + formatDouble(entry.getGainPercentage()) + "</td>" + 
+		 		"    <td>" + (entry.getComments() == null ? "" : entry.getComments()) + "</td>" + 
+		 		"  </tr>");
+				
 			}
 		
-		buf.append("    </tbody>\n" + 
-				"  </table>\n" + 
-				"  <!-- /Start your project here-->\n" + 
-				"\n" + 
-				"  <!-- SCRIPTS -->\n" + 
-				"<!-- JQuery -->\n" + 
-				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n" + 
-				"<!-- Bootstrap tooltips -->\n" + 
-				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js\"></script>\n" + 
-				"<!-- Bootstrap core JavaScript -->\n" + 
-				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js\"></script>\n" + 
-				"<!-- MDB core JavaScript -->\n" + 
-				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js\"></script>\n" + 
-				"</body>\n" + 
+		buf.append("    </tbody>" + 
+				"  </table>" + 
+				"" + 
+				"</body>" + 
 				"\n" + 
 				"</html>");
 		return buf.toString();

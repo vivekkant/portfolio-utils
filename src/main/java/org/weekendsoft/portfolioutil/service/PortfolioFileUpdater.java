@@ -145,10 +145,10 @@ public class PortfolioFileUpdater {
 	}
 	
 	private void updateZeroValueEntry(PortfolioEntry entry, String comments) {
-		entry.setPrice(0);
 		entry.setCostPrice(entry.getQuantity() > 0 ? 
 						   entry.getCostBasis() / entry.getQuantity() :
 						   0);
+		entry.setPrice(entry.getCostPrice());
 		entry.setTotal(entry.getCostBasis());
 		entry.setComments(comments);
 	}
