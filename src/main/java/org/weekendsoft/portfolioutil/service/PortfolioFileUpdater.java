@@ -137,7 +137,7 @@ public class PortfolioFileUpdater {
 
 				PortfolioEntry entry = portfolio.get(symbol);
 				if (entry != null) {
-					updateZeroValueEntry(entry, "Enable to download price");
+					updateZeroValueEntry(entry, "Unable to download price");
 					portfolio.put(symbol, entry);
 				}
 			}		
@@ -150,6 +150,8 @@ public class PortfolioFileUpdater {
 						   0);
 		entry.setPrice(entry.getCostPrice());
 		entry.setTotal(entry.getCostBasis());
+		entry.setGain(0);
+		entry.setGainPercentage(0);
 		entry.setComments(comments);
 	}
 	
