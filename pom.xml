@@ -46,6 +46,11 @@
 		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>			
 		<dependency>
+		    <groupId>org.weekendsoft</groupId>
+		    <artifactId>zerodha-scraper</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>			
+		<dependency>
 		    <groupId>org.antlr</groupId>
 		    <artifactId>stringtemplate</artifactId>
 		    <version>3.2</version>
