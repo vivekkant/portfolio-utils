@@ -22,6 +22,7 @@ import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
 import org.weekendsoft.portfolioutil.util.PortfolioEmailMapper;
 import org.weekendsoft.zerodhascraper.model.CoinEntry;
 import org.weekendsoft.zerodhascraper.rpa.CoinPortfolioDownload;
+import org.weekendsoft.zerodhascraper.rpa.SmallCasePortfolioDownload;
 
 public class CoinRPADriver {
 	
@@ -29,12 +30,12 @@ public class CoinRPADriver {
 	
 	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 	
-	private Options options = 	new Options();
-	private File 	outdir 	= 	null;
-	private String 	email 	= 	null;
-	private String username = null;
-	private String password = null;
-	private String pin = null;
+	private Options options 	= new Options();
+	private File 	outdir 		= null;
+	private String 	email 		= null;
+	private String 	username 	= null;
+	private String 	password 	= null;
+	private String 	pin 		= null;
 
 	public static void main(String[] args) {
 		
@@ -53,7 +54,6 @@ public class CoinRPADriver {
 			cmd = setAndParseOptions(args);
 			setCMDParameters(cmd);
 			
-			//TODO Do the magic of parsing and send email
 			CoinPortfolioDownload downloader = new CoinPortfolioDownload(this.username, 
 																   this.password, 
 																   this.pin);
@@ -70,6 +70,18 @@ public class CoinRPADriver {
 				PortfolioEntry entry = CoinUtils.map(coin);
 				portfolio.add(entry);
 			}
+			
+			SmallCasePortfolioDownload scd = new SmallCasePortfolioDownload(this.username, 
+					   													this.password, 
+					   													this.pin, 
+					   													downloader.getDriver());
+			
+			CoinEntry ce = scd.downloadSmallCaseInvestment();
+			if (ce != null && ce.getCurrent() != -1) {
+				list.add(ce);
+				portfolio.add(CoinUtils.map(ce));
+			}
+			
 			portfolio.add(CoinUtils.total(list));
 			
 			File dest = new File(outdir, "coin-portfolio-download.csv");
@@ -77,8 +89,10 @@ public class CoinRPADriver {
 			mapper.mapPortfolio(portfolio);
 			
 			PortfolioEmailMapper emapper = new PortfolioEmailMapper(this.email, 
-												"Zerodha MF Portfolio Update");
+												"Investment Portfolio Update");
 			emapper.mapPortfolio(portfolio);
+			
+			scd.close();
 			
 		} 
 		catch (ParseException e) {
@@ -89,7 +103,8 @@ public class CoinRPADriver {
 		catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 			System.out.println(e.getMessage());
-		}		
+		}
+		
 	}
 
 	
