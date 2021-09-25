@@ -66,14 +66,14 @@ public class YahooFinanceQuoteDownloader implements Downloader {
 
 				try {
 					price.setSymbol(node.get("symbol").asText());
-					price.setName(node.get("longName").asText());
+					price.setName(node.get("shortName").asText());
 					price.setPrice(node.get("regularMarketPrice").doubleValue());
 					
 					LOG.debug("Got quote : " + price);
 					prices.put(price.getSymbol(), price);
 				} 
 				catch (Exception e) {
-					LOG.error("Got exception while getting the Quote data : " + node.toString());
+					LOG.error("Got exception while getting the Quote data : " + node.toString(), e);
 				}
 			}
         }
