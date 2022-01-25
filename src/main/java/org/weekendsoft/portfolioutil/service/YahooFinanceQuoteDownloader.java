@@ -16,7 +16,7 @@ public class YahooFinanceQuoteDownloader implements Downloader {
 	
 	private static final Logger LOG = Logger.getLogger(YahooFinanceQuoteDownloader.class);
 
-	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes";
+	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes";
 	private static final String key = "ffdc8f3cf7mshdfa87fe1f1e839cp1529d3jsn07400723824d";
 	
 	@Override
