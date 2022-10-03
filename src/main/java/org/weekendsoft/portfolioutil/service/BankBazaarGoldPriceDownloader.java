@@ -40,7 +40,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 
 	
 	private double download24KGoldPrice() {
-		double price = -1;
+		double price = 5000;
 		
 		try {
 			HTTPDownloader downloader = HTTPDownloader.getInstance();
