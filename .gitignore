@@ -17,6 +17,7 @@ src/main/resources/app.properties
 .classpath
 .project
 .settings/**
+.factorypath
 
 # Package Files #
 *.jar
