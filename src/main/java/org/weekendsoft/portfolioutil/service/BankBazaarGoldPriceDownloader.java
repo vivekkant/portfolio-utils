@@ -12,7 +12,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 
 	private static final Logger LOG = Logger.getLogger(BankBazaarGoldPriceDownloader.class);
 	
-	private static final String url = "https://www.bankbazaar.com/gold-rate-pune.html";
+	private static final String url = "https://www.5paisa.com/commodity-trading/gold-rate-today";
 	
 //	private static final String GOLD24K = "24K.BB";
 	private static final String GOLD24K_NAME = "24K Gold";
@@ -46,6 +46,7 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 			HTTPDownloader downloader = HTTPDownloader.getInstance();
 			String response = downloader.download(url);
 			price = Double.parseDouble(parse(response));
+			price = price / 10;
 			LOG.info("Gold Price downloaded : " + price);
 		} 
 		catch (Exception e) {
@@ -56,9 +57,9 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 	}
 	
 	public String parse(String response) throws Exception {
-		String anchorline = "<td> Pure Gold (24 K) ( 1 gram )</td>";
-		String parseStartTag = "<td>&#8377;";
-		String parseEndTag = "</td>";
+		String anchorline = "<span>24K Gold</span>";
+		String parseStartTag = "<div class=\"gold__value\">";
+		String parseEndTag = "</strong>";
 		
 		
 		int anchorPos = response.indexOf(anchorline);
@@ -67,9 +68,9 @@ public class BankBazaarGoldPriceDownloader implements Downloader {
 			int parseStartPos = response.indexOf(parseStartTag, anchorPos + anchorline.length());
 			int parseEndPos = response.indexOf(parseEndTag, parseStartPos + parseStartTag.length());
 			if (parseStartPos != -1 && parseEndPos != -1) {
-				String price = response.substring(parseStartPos + 11, parseEndPos)
-										  .trim().replace(",", "");
-				return price;
+				String priceStr = response.substring(parseStartPos, parseEndPos);
+				priceStr = priceStr.substring(priceStr.indexOf("<strong>") + 9);
+				return priceStr;
 			}
 			else 
 			{

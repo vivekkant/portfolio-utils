@@ -92,7 +92,7 @@ public class Driver {
 	private CommandLine setAndParseOptions(String[] args) throws ParseException {
 		options.addOption("i", "indir", 	true, 	"Input directory with portoflio files");
 		options.addOption("o", "outdir", 	true, 	"Output directory where portfolio files will be stored");
-		options.addOption("e", "outdir", 	true, 	"Email to send the portfolio details");
+		options.addOption("e", "email", 	true, 	"Email to send the portfolio details");
 		options.addOption("h", "help", 		false, 	"Help");		
 		
 		CommandLineParser 	parser 	= new DefaultParser();

@@ -15,7 +15,7 @@ class BankBazaarGoldPriceDownloaderTest {
 	private static final String GOLD24K = "24K.BB";
 
 	@Test
-	void test() throws Exception {
+	void testBBGold() throws Exception {
 		Downloader downloader = new BankBazaarGoldPriceDownloader();
 		
 		List<String> symbols = new ArrayList<String>();
