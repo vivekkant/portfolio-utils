@@ -16,8 +16,8 @@ src/main/resources/app.properties
 .DS_Store
 .classpath
 .project
-.settings/**
 .factorypath
+.settings/**
 
 # Package Files #
 *.jar
