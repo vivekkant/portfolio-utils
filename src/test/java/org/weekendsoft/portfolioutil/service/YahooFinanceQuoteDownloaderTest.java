@@ -18,7 +18,7 @@ class YahooFinanceQuoteDownloaderTest {
 		List<String> request = new ArrayList<String>();
 		request.add("DMART.NS");
 		request.add("BAJAJFINSV.NS");
-		request.add("N100.BO");
+		request.add("MON100.NS");
 			
 		Map<String, Price> quotes = downloader.download(request);
 		assertEquals(request.size(), quotes.size());
