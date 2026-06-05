@@ -3,14 +3,15 @@ package org.weekendsoft.portfolioutil.util;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.emailsender.EmailSender;
 import org.weekendsoft.emailsender.SendInBlueEmailSender;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 public class PortfolioEmailMapper implements PortfolioMapper {
 	
-	private static final Logger LOG = Logger.getLogger(PortfolioEmailMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PortfolioEmailMapper.class);
 	private static final DecimalFormat format = new DecimalFormat("#.##");
 	
 	private static String from = "portfolio@weekendsoft.org";

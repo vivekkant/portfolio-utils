@@ -1,16 +1,16 @@
 package org.weekendsoft.portfolioutil;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 
 class DriverTest {
 	
@@ -21,7 +21,7 @@ class DriverTest {
 	
 	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		File tempdir = new File(System.getProperty("java.io.tmpdir"));
 		indir = new File(tempdir, "portin");
@@ -32,7 +32,7 @@ class DriverTest {
 		writeSampleFile(infile);
 	}
 
-	@AfterAll
+	@AfterClass
 	static void tearDownAfterClass() throws Exception {
 		indir.deleteOnExit();
 		outdir.deleteOnExit();
@@ -48,7 +48,7 @@ class DriverTest {
 		File outdirnew = new File(outdir, dateprefix.format(new Date()));
 		File outfile = new File(outdirnew, infile.getName());
 		
-		assertTrue(outfile.exists());
+		Assert.assertTrue(outfile.exists());
 	}
 
 	static void writeSampleFile(File file) throws IOException {

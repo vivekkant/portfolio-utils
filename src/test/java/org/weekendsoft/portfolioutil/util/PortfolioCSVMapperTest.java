@@ -5,22 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 class PortfolioCSVMapperTest {
 	
 	static File csvFile = null;
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		File tempdir = new File(System.getProperty("java.io.tmpdir"));
 		csvFile = new File(tempdir, System.currentTimeMillis() + ".csv");
 	}
 
-	@AfterAll
+	@AfterClass
 	static void tearDownAfterClass() throws Exception {
 		if (csvFile.exists()) {
 			csvFile.deleteOnExit();

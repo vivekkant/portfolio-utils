@@ -9,12 +9,13 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 public class PortfolioCSVMapper implements PortfolioMapper {
 	
-	private static final Logger LOG = Logger.getLogger(PortfolioCSVMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PortfolioCSVMapper.class);
 	private static final DecimalFormat format = new DecimalFormat("#.####");
 	
 	private File dest;

@@ -1,29 +1,28 @@
 package org.weekendsoft.portfolioutil.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 class PortfolioCSVParserTest {
 	
 	static File csvFile = null;
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		File tempdir = new File(System.getProperty("java.io.tmpdir"));
 		csvFile = new File(tempdir, System.currentTimeMillis() + ".csv");
 		writeSampleFile(csvFile);
 	}
 
-	@AfterAll
+	@AfterClass
 	static void tearDownAfterClass() throws Exception {
 		if (csvFile.exists()) {
 			csvFile.deleteOnExit();
@@ -34,7 +33,7 @@ class PortfolioCSVParserTest {
 	void test() throws Exception {
 		PortfolioCSVParser parser = new PortfolioCSVParser(csvFile);
 		List<PortfolioEntry> entry = parser.parsePortfolioCSV();
-		assertEquals(4, entry.size());
+		Assert.assertEquals(4, entry.size());
 		
 	}
 	

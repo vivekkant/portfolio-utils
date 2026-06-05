@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 
 class PortfolioFileUpdaterTest {
 	
@@ -14,7 +15,7 @@ class PortfolioFileUpdaterTest {
 	static File outFile = null;
 	static String email = "vivek.kant@gmail.com";
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		File tempdir = new File(System.getProperty("java.io.tmpdir"));
 		String filename = System.currentTimeMillis() + ".csv";
@@ -23,7 +24,7 @@ class PortfolioFileUpdaterTest {
 		writeSampleFile(inFile);
 	}
 
-	@AfterAll
+	@AfterClass
 	static void tearDownAfterClass() throws Exception {
 	}
 

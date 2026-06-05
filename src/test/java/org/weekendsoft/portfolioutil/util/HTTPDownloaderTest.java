@@ -1,6 +1,6 @@
 package org.weekendsoft.portfolioutil.util;
 
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 class HTTPDownloaderTest {
 

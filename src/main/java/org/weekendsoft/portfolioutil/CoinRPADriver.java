@@ -15,7 +15,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 import org.weekendsoft.portfolioutil.util.CoinUtils;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
@@ -26,7 +27,7 @@ import org.weekendsoft.zerodhascraper.rpa.SmallCasePortfolioDownload;
 
 public class CoinRPADriver {
 	
-	private static final Logger LOG = Logger.getLogger(CoinRPADriver.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CoinRPADriver.class);
 	
 	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 	

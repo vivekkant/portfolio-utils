@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 public class YahooFinanceQuoteDownloader implements Downloader {
 	
-	private static final Logger LOG = Logger.getLogger(YahooFinanceQuoteDownloader.class);
+	private static final Logger LOG = LoggerFactory.getLogger(YahooFinanceQuoteDownloader.class);
 
 	private static final String url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes";
 	private static final String key = "ffdc8f3cf7mshdfa87fe1f1e839cp1529d3jsn07400723824d";

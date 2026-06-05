@@ -10,14 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.Price;
 
 public class AMFINavDownloader implements Downloader {
 
-	private static final Logger LOG = Logger.getLogger(AMFINavDownloader.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AMFINavDownloader.class);
 	
-	private static final String url = "https://www.amfiindia.com/spages/NAVAll.txt";
+	private static final String url = "https://portal.amfiindia.com/spages/NAVAll.txt";
 	
 	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 	

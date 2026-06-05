@@ -10,11 +10,12 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HTTPDownloader {
 	
-	private static final Logger LOG = Logger.getLogger(HTTPDownloader.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HTTPDownloader.class);
 	
 	private static HTTPDownloader instance = null;
 	

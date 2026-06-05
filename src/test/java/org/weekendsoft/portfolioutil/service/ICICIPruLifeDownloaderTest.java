@@ -1,12 +1,11 @@
 package org.weekendsoft.portfolioutil.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.Price;
 
 class ICICIPruLifeDownloaderTest {
@@ -23,7 +22,7 @@ class ICICIPruLifeDownloaderTest {
 		
 		Downloader downloader = new ICICIPruLifeDownloader();
 		Map<String, Price> prices = downloader.download(codes);
-		assertEquals(codes.size(), prices.size());
+		Assert.assertEquals(codes.size(), prices.size());
 	}
 
 }

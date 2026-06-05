@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 class PortfolioEmailMapperTest {

@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.PortfolioCSVMapper;
@@ -20,7 +21,7 @@ import org.weekendsoft.portfolioutil.util.SymbolSourceIdentifier;
 
 public class PortfolioFileUpdater {
 
-	private static final Logger LOG = Logger.getLogger(PortfolioFileUpdater.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PortfolioFileUpdater.class);
 	
 	private double costTotal = 0;
 	private double valueTotal = 0;
@@ -65,6 +66,7 @@ public class PortfolioFileUpdater {
 		List<String> yahooSymbols = new ArrayList<String>();
 		List<String> iciciPruSymbols = new ArrayList<String>();
 		List<String> bbSymbols = new ArrayList<String>();
+		List<String> sgbSymbols = new ArrayList<String>();
 		
 		for(PortfolioEntry entry : list) {
 			
@@ -80,6 +82,9 @@ public class PortfolioFileUpdater {
 			}
 			else if (SymbolSourceIdentifier.isBBSource(entry.getSymbol())) {
 				bbSymbols.add(entry.getSymbol());
+			}
+			else if (SymbolSourceIdentifier.isSGBSource(entry.getSymbol())) {
+				sgbSymbols.add(entry.getSymbol());
 			}
 			else {
 				updateZeroValueEntry(entry, "Symbol does not match any format");
@@ -107,6 +112,11 @@ public class PortfolioFileUpdater {
 		if (bbSymbols.size() > 0) {
 			Downloader bbDownloader = new BankBazaarGoldPriceDownloader();
 			downloadAndUpdate(portfolio, bbDownloader, bbSymbols);
+		}
+
+		if (sgbSymbols.size() > 0) {
+			Downloader sgbDownloader = new NSESGBDownloader("/Users/vivekkant/Dropbox/Account/Portfolio/REF/SGB.csv");
+			downloadAndUpdate(portfolio, sgbDownloader, sgbSymbols);
 		}
 		
 		return portfolio;

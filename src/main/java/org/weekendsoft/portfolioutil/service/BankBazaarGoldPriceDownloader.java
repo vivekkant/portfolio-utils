@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
 public class BankBazaarGoldPriceDownloader implements Downloader {
 
-	private static final Logger LOG = Logger.getLogger(BankBazaarGoldPriceDownloader.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BankBazaarGoldPriceDownloader.class);
 	
 	private static final String url = "https://www.5paisa.com/commodity-trading/gold-rate-today";
 	

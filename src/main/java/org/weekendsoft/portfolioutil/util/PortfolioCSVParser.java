@@ -9,12 +9,13 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.PortfolioEntry;
 
 public class PortfolioCSVParser {
 	
-	private static final Logger LOG = Logger.getLogger(PortfolioCSVParser.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PortfolioCSVParser.class);
 	
 	private File source;
 	

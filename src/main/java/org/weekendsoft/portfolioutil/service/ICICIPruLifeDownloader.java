@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.model.Price;
 import org.weekendsoft.portfolioutil.util.HTTPDownloader;
 
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 public class ICICIPruLifeDownloader implements Downloader {
 
-	private static final Logger LOG = Logger.getLogger(ICICIPruLifeDownloader.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ICICIPruLifeDownloader.class);
 	
 	private static final String url = "https://buy.iciciprulife.com/buy/funds-all-products.htm";
 	

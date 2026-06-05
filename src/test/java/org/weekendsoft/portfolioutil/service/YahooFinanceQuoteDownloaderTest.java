@@ -1,12 +1,11 @@
 package org.weekendsoft.portfolioutil.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.Price;
 
 class YahooFinanceQuoteDownloaderTest {
@@ -21,7 +20,7 @@ class YahooFinanceQuoteDownloaderTest {
 		request.add("MON100.NS");
 			
 		Map<String, Price> quotes = downloader.download(request);
-		assertEquals(request.size(), quotes.size());
+		Assert.assertEquals(request.size(), quotes.size());
 	}
 
 }

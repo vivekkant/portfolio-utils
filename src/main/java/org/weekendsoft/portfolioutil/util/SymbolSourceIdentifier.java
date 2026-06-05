@@ -1,16 +1,18 @@
 package org.weekendsoft.portfolioutil.util;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SymbolSourceIdentifier {
 	
-	private static final Logger LOG = Logger.getLogger(SymbolSourceIdentifier.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SymbolSourceIdentifier.class);
 	
 	public enum SymbolType {
 	    YAHOO,
 	    AMFI,
 	    ICICIPRU,
 	    BBGOLD,
+		SGB,
 	    OTHER
 	  }
 	
@@ -29,6 +31,9 @@ public class SymbolSourceIdentifier {
 		}
 		else if (isBBSource(symbol)) {
 			return SymbolType.BBGOLD;
+		}
+		else if (isSGBSource(symbol)) {
+			return SymbolType.SGB;
 		}
 		else {
 			return SymbolType.OTHER;
@@ -94,6 +99,18 @@ public class SymbolSourceIdentifier {
 					LOG.debug("Symbol " + symbol + " is of Bank Bazaar");
 					return true;
 				}
+			}
+		}
+		
+		return false;
+	}
+
+	public static boolean isSGBSource(String symbol) {
+		
+		if (symbol != null && symbol.trim().length() > 3) {
+			symbol = symbol.trim();
+			if (symbol.startsWith("SGB")) {
+				return true;
 			}
 		}
 		

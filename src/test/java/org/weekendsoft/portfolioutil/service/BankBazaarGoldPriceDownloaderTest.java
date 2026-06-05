@@ -1,13 +1,12 @@
 package org.weekendsoft.portfolioutil.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 import org.weekendsoft.portfolioutil.model.Price;
 
 class BankBazaarGoldPriceDownloaderTest {
@@ -23,8 +22,8 @@ class BankBazaarGoldPriceDownloaderTest {
 		
 		Map<String, Price> prices = downloader.download(symbols);
 		
-		assertEquals(symbols.size(), prices.size());
-		assertTrue(prices.get(GOLD24K).getPrice() > 0);
+		Assert.assertEquals(symbols.size(), prices.size());
+		Assert.assertTrue(prices.get(GOLD24K).getPrice() > 0);
 	}
 
 }

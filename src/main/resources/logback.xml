@@ -1,0 +1,21 @@
+<configuration status="WARN">
+
+  <!-- Define Console Appender -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+          <!-- Print only the log message without metadata -->
+          <pattern>%d{HH:mm:ss.SSS} %-4relative %-5level %logger{35} - %msg%n</pattern>
+      </encoder>
+  </appender>
+
+  <!-- Root Logger Configuration -->
+  <root level="INFO">
+  
+  </root>
+
+  <!-- Logger Configuration for specific package -->
+  <logger name="org.weekendsoft" level="DEBUG">
+      <appender-ref ref="CONSOLE" />
+  </logger>
+
+</configuration>

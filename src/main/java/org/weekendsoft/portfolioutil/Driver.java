@@ -13,13 +13,14 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.weekendsoft.portfolioutil.service.PortfolioFileUpdater;
 import org.weekendsoft.portfolioutil.util.CSVFileFilter;
 
 public class Driver {
 	
-	private static final Logger LOG = Logger.getLogger(Driver.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Driver.class);
 	
 	private static final SimpleDateFormat dateprefix = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -68,7 +69,7 @@ public class Driver {
 	
 	private void setInAndOutDir(CommandLine cmd) throws Exception {
 		
-		if (!cmd.hasOption('i')) throw new ParseException("Inout argument not present");
+		if (!cmd.hasOption('i')) throw new ParseException("Input argument not present");
 		if (!cmd.hasOption('o')) throw new ParseException("Output argument not present");
 		
 		String infileStr = cmd.getOptionValue('i');
